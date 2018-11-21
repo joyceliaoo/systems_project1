@@ -30,14 +30,14 @@ int main() {
 
 		// parse the input
 		int num_lines = num_tokens(l, ";");
-		char** cl = parse_line(l, ";", num_lines); // split it uinto the different commands
+		char** lines = parse_line(l, ";", num_lines); // split it uinto the different commands
 		
 		int i =  num_lines; // placeholder for num of lines
 		char** curr_line;
 		while (i) { 
-			int num_args = num_tokens(	cl[num_lines-i], " ");
-			curr_line = parse_line(cl[num_lines-i], " ", num_args); // parse by " "
-				
+			int num_args = num_tokens(	lines[num_lines-i], " ");
+			curr_line = parse_line(lines[num_lines-i], " ", num_args); // parse by " "
+            print_arr(curr_line);				
 			i --;
 		}	
 

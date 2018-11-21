@@ -14,8 +14,9 @@
 
 void print_arr( char** arr) {
 	int i = 0;
-	while (*arr) {
+	while (arr[i]) {
 		printf("%d: %s\n", i, arr[i]);
+        i++;
 	}
 }
 	
