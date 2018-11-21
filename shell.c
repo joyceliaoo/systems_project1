@@ -14,7 +14,7 @@
 
 unsigned int num_tokens(char* line, char* delim) {
 	unsigned int ans = 0;
-	while (line) { // while were still in the string
+	while (*line) { // while were still in the string
 		if (!strncmp(line, delim, 1)) {
 			ans ++;
 		}
