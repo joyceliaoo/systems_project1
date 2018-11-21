@@ -19,6 +19,17 @@ int main() {
 	printf("expected: 2; actual: %d\n", num_tokens("ahjfdf fsdfdsf ", " "));
 	printf("expect: 6; actual: %d\n", num_tokens("ahjfdf f sd f d sf ", " "));
 
+    while (1) {
+    // ask for command line input
+    char l[100]; // buffer for what the user enters 
+    // parse the input
+
+    // fork off a child process to do whatever it needs to do 
+    
+    // wait for child process to finish
+
+    // rinse and repeat :)
+    }
 	return 0;
 }
 

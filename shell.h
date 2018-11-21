@@ -17,6 +17,19 @@ unsigned int num_tokens(char* line, char* delim);
 
 char** parse_line(char* line, char* delim);
 
+//                      ACTUAL COMMANDS
+
+// inputs: char* d_name
+// returns: nothing
+// changes the current working directory to @d_name, will do nothing and print a message if it doesn't work 
+
+void cd(char* d_name);
+
+// inputs: none
+// returns: nothing
+// quits the terminal with an exit message
+
+void quit();
 
 
 #endif
