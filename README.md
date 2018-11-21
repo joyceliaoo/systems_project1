@@ -1,4 +1,4 @@
-#JOYCE AND HANNA'S SHELL!!
+# JOYCE AND HANNA'S SHELL!!
 
 ## currently working:
 1. can parse text!
@@ -8,7 +8,7 @@
 
 ## functions and descriptions:
 
-'''
+''' C
 // inputs: char* line, char* delim
 // returns: (unsigned int) number of tokens separated by @delim
 // counts number of times @delim appears in @line, and adds 1.
