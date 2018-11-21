@@ -8,14 +8,13 @@
 
 ## functions and descriptions:
 
-''' C
+``` C
 // inputs: char* line, char* delim
 // returns: (unsigned int) number of tokens separated by @delim
 // counts number of times @delim appears in @line, and adds 1.
 
 unsigned int num_tokens(char* line, char* delim);
-
-'''
+```
 
 
 
