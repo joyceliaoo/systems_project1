@@ -15,7 +15,7 @@ unsigned int num_tokens(char* line, char* delim);
 // returns: array of lineings where each entry is a token (from @str) seperated by @delim
 // seperates @line into tokens by @delim, and returns a pointer to an array contining them
 
-char** parse_line(char* line, char* delim);
+char** parse_line(char* line, char* delim, int num_tokens);
 
 //                      ACTUAL COMMANDS
 
