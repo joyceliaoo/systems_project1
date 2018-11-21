@@ -2,6 +2,8 @@
 #define shell
 
 
+//                      DEALING W TEXT
+
 // inputs: char* line, char* delim
 // returns: (unsigned int) number of tokens separated by @delim
 // counts number of times @delim appears in @line, and adds 1.
