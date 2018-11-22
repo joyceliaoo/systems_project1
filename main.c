@@ -43,13 +43,16 @@ int main() {
             int f = fork();
             // run/
             if (f) { // parent
-
-            } else { // child
-                printf("first command:\" %s\"", curr_line[0]);
-                run(curr_line);
-                printf("child is done!");
-            }
             // wait for child process to finish
+                int status;
+                wait(&status);
+            } else { // child
+                printf("first command:\"%s\"\n", curr_line[0]);
+                // curr_line = trim(curr_line);
+                print_arr(curr_line);
+                run(curr_line);
+                printf("child is done!\n");
+            }
 			i --;
 		}	
 

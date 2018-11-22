@@ -11,6 +11,7 @@
 #include <sys/wait.h>
 #include "shell.h"
 
+//  dealing w parsing text
 
 unsigned int num_tokens(char* line, char* delim) {
 	unsigned int ans = 1;
@@ -40,6 +41,28 @@ char** parse_line(char* line, char* delim, int num_tokens) {
 	return args;
 }
 
+char** trim(char** args) {
+    char** ans = malloc( sizeof(args));
+    int string_offset = 0;
+    while (*args) { // now considering just strings
+        int char_offset = 0;
+        char* source = args[string_offset];
+        //copy each char
+        char* dest = malloc(sizeof(source));
+        while (source[char_offset]) {
+            dest[char_offset] = source[char_offset];
+            char_offset++;
+        }
+        //add terminating null
+        dest[char_offset] = '\0';
+        ans[string_offset] = dest;
+        string_offset++;
+    }
+    free(args);
+    return ans;
+}
+
+// running things, commands
 void run(char** args) {
     if (!strcmp(args[0], "cd")){
         //smth w chdir
@@ -51,6 +74,8 @@ void run(char** args) {
     }
 
 }
+
+// commands 
 
 void quit() {
     printf("you have chosen to quit; placeholder");
