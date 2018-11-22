@@ -17,6 +17,12 @@ unsigned int num_tokens(char* line, char* delim);
 
 char** parse_line(char* line, char* delim, int num_tokens);
 
+// inputs: char** args 
+// returns: nothing 
+// runs the commands given 
+
+void run(char** args);
+
 //                      ACTUAL COMMANDS
 
 // inputs: char* d_name

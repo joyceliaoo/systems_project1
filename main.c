@@ -22,6 +22,7 @@ int main() {
 
     while (1) {
 		// ask for command line input
+        printf("> ");
 		char l[100]; // buffer for what the user enters 
 		fgets(l, 100, stdin);		
 
@@ -37,14 +38,22 @@ int main() {
 		while (i) { 
 			int num_args = num_tokens(	lines[num_lines-i], " ");
 			curr_line = parse_line(lines[num_lines-i], " ", num_args); // parse by " "
-            print_arr(curr_line);				
+            // print_arr(curr_line);				
+           
+            int f = fork();
+            // run/
+            if (f) { // parent
+
+            } else { // child
+                printf("first command:\" %s\"", curr_line[0]);
+                run(curr_line);
+                printf("child is done!");
+            }
+            // wait for child process to finish
 			i --;
 		}	
 
 
-		// fork off a child process to do whatever it needs to do 
-			
-		// wait for child process to finish
 
 		// rinse and repeat :)
     }

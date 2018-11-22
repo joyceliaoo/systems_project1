@@ -16,7 +16,7 @@ unsigned int num_tokens(char* line, char* delim) {
 	unsigned int ans = 1;
 	while (*line) { // while were still in the string
 		if (!strncmp(line, delim, 1)) {
-			printf("theyre equal!\n");
+			/*printf("theyre equal!\n");*/
 			ans ++;
 		}
 		line ++;
@@ -40,5 +40,18 @@ char** parse_line(char* line, char* delim, int num_tokens) {
 	return args;
 }
 
-	
+void run(char** args) {
+    if (!strcmp(args[0], "cd")){
+        //smth w chdir
+        printf("u have chosen to cd. it doesn't work yet");
+    } else if (!strcmp(args[0], "quit")) {
+        quit();
+    } else {
+        execvp(".", args);
+    }
 
+}
+
+void quit() {
+    printf("you have chosen to quit; placeholder");
+}
