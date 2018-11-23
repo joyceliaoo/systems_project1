@@ -37,7 +37,7 @@ char** parse_line(char* line, char* delim, int num_tokens) {
 		s = strsep(&line, delim);
 		i++;
 	}
-	args[num_tokens] = NULL; // convience and also exec
+	args[num_tokens] = NULL; // convenience and also exec
 	return args;
 }
 
@@ -63,24 +63,21 @@ char** trim(char** args) {
 }
 
 // running things, commands
-void run(char** args) {
+int run(char** args) {
     //internal commands
     //cd
     if (!strcmp(args[0], "cd")){
         //smth w chdir
-        printf("u have chosen to cd. it doesn't work yet");
+        printf("u have chosen to cd. it doesn't work yet\n");
+        return 2; //let main know cd is called
     } 
     //exit
     else if (!strcmp(args[0], "exit")) {
-        quit();
-    } else {
+        return 1; //let main know exit is called
+    } 
+    //external commands
+    else {
         execvp(".", args);
     }
 
-}
-
-// commands 
-
-void quit() {
-    printf("you have chosen to quit; placeholder");
 }

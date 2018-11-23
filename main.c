@@ -14,7 +14,6 @@
 
 
 int main() {
-	
 	// testing code:
 	printf("testing num_tokens\n");
 	printf("expected: 2; actual: %d\n", num_tokens("ahjfdf fsdfdsf", " "));
@@ -24,39 +23,49 @@ int main() {
 		// ask for command line input
         printf("> ");
 		char l[100]; // buffer for what the user enters 
-		fgets(l, 100, stdin);		
+		fgets(l, 100, stdin); //reads user input	
+		l[strlen(l)-1] = '\0'; //remove trailing \n character	
 
 		/*// testing*/
 		/*printf("you entered: %s\n", l);*/
 
 		// parse the input
 		int num_lines = num_tokens(l, ";");
-		char** lines = parse_line(l, ";", num_lines); // split it uinto the different commands
-		
+		char** lines = parse_line(l, ";", num_lines); // split it into the different commands
+		printf("commands received: \n");
+		print_arr(lines);
+
 		int i =  num_lines; // placeholder for num of lines
 		char** curr_line;
 		while (i) { 
+			//count num of args in each commands
 			int num_args = num_tokens(	lines[num_lines-i], " ");
+			//take each command and parse into array of args
 			curr_line = parse_line(lines[num_lines-i], " ", num_args); // parse by " "
             // print_arr(curr_line);				
            
             int f = fork();
-            // run/
+            // run
             if (f) { // parent
-            // wait for child process to finish
+            	// wait for child process to finish
                 int status;
                 wait(&status);
+                int child_value = WEXITSTATUS(status); //get return value of run
+                printf("child: %d\n", child_value);
+                //if command is "exit"
+                if (child_value == 1) {
+                	printf("exiting shell...\n");
+                	exit(status);
+                }
             } else { // child
-                printf("first command:\"%s\"\n", curr_line[0]);
+                printf("command to be run next:%s\n", curr_line[0]);
                 // curr_line = trim(curr_line);
                 print_arr(curr_line);
-                run(curr_line);
                 printf("child is done!\n");
+                return run(curr_line); //to end child process
             }
-			i --;
+			i--;
 		}	
-
-
 
 		// rinse and repeat :)
     }

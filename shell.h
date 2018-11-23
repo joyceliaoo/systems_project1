@@ -30,12 +30,13 @@ char** trim(char** args);
 // returns: nothing 
 // runs the commands given 
 
-void run(char** args);
+int run(char** args);
 
 //                      ACTUAL COMMANDS
 
 // inputs: char* d_name
-// returns: nothing
+// returns: 1 if command is exit, 2 if command is cd
+// executes given args otherwise
 // changes the current working directory to @d_name, will do nothing and print a message if it doesn't work 
 
 void cd(char* d_name);
