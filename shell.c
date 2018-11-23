@@ -64,10 +64,14 @@ char** trim(char** args) {
 
 // running things, commands
 void run(char** args) {
+    //internal commands
+    //cd
     if (!strcmp(args[0], "cd")){
         //smth w chdir
         printf("u have chosen to cd. it doesn't work yet");
-    } else if (!strcmp(args[0], "quit")) {
+    } 
+    //exit
+    else if (!strcmp(args[0], "exit")) {
         quit();
     } else {
         execvp(".", args);
