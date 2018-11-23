@@ -41,25 +41,45 @@ char** parse_line(char* line, char* delim, int num_tokens) {
 	return args;
 }
 
-char** trim(char** args) {
-    char** ans = malloc( sizeof(args));
-    int string_offset = 0;
-    while (*args) { // now considering just strings
-        int char_offset = 0;
-        char* source = args[string_offset];
-        //copy each char
-        char* dest = malloc(sizeof(source));
-        while (source[char_offset]) {
-            dest[char_offset] = source[char_offset];
-            char_offset++;
+// char** trim(char** args) {
+//     char** ans = malloc( sizeof(args));
+//     int string_offset = 0;
+//     while (*args) { // now considering just strings
+//         int char_offset = 0;
+//         char* source = args[string_offset];
+//         //copy each char
+//         char* dest = malloc(sizeof(source));
+//         while (source[char_offset]) {
+//             dest[char_offset] = source[char_offset];
+//             char_offset++;
+//         }
+//         //add terminating null
+//         dest[char_offset] = '\0';
+//         ans[string_offset] = dest;
+//         string_offset++;
+//     }
+//     free(args);
+//     return ans;
+// }
+
+void trim(char **args, int num_args) {
+    int cur = 0;
+    int extra = 0; //count how many extra spaces there are
+    //go through the array
+    while (cur < num_args - 1) {
+        //if an arg is a space or \0 char, shift next arg to where the space is
+        if (args[cur][0] == '\0' || args[cur][0] == ' ') {
+            extra++;
+            strcpy(args[cur], args[cur+1]);
+            //arg that has been shifted is replaced by space
+            strcpy(args[cur+1], " ");
         }
-        //add terminating null
-        dest[char_offset] = '\0';
-        ans[string_offset] = dest;
-        string_offset++;
+        cur++;
     }
-    free(args);
-    return ans;
+    //check last string in arr
+    if (args[cur][0] == '\0' || args[cur][0] == ' ') extra++;
+    //get rid of all extra spaces but cutting the end off
+    args[num_args - extra] = NULL;
 }
 
 // running things, commands

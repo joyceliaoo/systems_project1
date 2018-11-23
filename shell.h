@@ -21,13 +21,14 @@ char** parse_line(char* line, char* delim, int num_tokens);
 // returns: char** that has everything in args, but with the whitespace trimmed off
 // trims off whitespace: \n, spaces, etc and other random stuff, then frees the input
 
-char** trim(char** args);
+void trim(char** args, int num_args);
 
 
 //                      RUNNING THE THING
 
 // inputs: char** args 
-// returns: nothing 
+// returns: 1 if command is exit, 2 if command is cd
+// executes given args otherwise
 // runs the commands given 
 
 int run(char** args);
@@ -35,8 +36,7 @@ int run(char** args);
 //                      ACTUAL COMMANDS
 
 // inputs: char* d_name
-// returns: 1 if command is exit, 2 if command is cd
-// executes given args otherwise
+// returns: nothing
 // changes the current working directory to @d_name, will do nothing and print a message if it doesn't work 
 
 void cd(char* d_name);

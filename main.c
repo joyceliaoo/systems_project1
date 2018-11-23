@@ -15,9 +15,9 @@
 
 int main() {
 	// testing code:
-	printf("testing num_tokens\n");
-	printf("expected: 2; actual: %d\n", num_tokens("ahjfdf fsdfdsf", " "));
-	printf("expect: 6; actual: %d\n", num_tokens("ahjfdf f sd f d sf", " "));
+	// printf("testing num_tokens\n");
+	// printf("expected: 2; actual: %d\n", num_tokens("ahjfdf fsdfdsf", " "));
+	// printf("expect: 6; actual: %d\n", num_tokens("ahjfdf f sd f d sf", " "));
 
     while (1) {
 		// ask for command line input
@@ -51,7 +51,7 @@ int main() {
                 int status;
                 wait(&status);
                 int child_value = WEXITSTATUS(status); //get return value of run
-                printf("child: %d\n", child_value);
+                printf("value returned by child: %d\n", child_value);
                 //if command is "exit"
                 if (child_value == 1) {
                 	printf("exiting shell...\n");
@@ -59,7 +59,7 @@ int main() {
                 }
             } else { // child
                 printf("command to be run next:%s\n", curr_line[0]);
-                // curr_line = trim(curr_line);
+                trim(curr_line, num_args);
                 print_arr(curr_line);
                 printf("child is done!\n");
                 return run(curr_line); //to end child process
