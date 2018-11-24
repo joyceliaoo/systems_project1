@@ -14,7 +14,6 @@
 
 
 int main() {
-	printf("HAPPY BIRTHDAY HANNA !!\n");
 	// testing code:
 	// printf("testing num_tokens\n");
 	// printf("expected: 2; actual: %d\n", num_tokens("ahjfdf fsdfdsf", " "));
