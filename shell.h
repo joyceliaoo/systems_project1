@@ -18,10 +18,10 @@ unsigned int num_tokens(char* line, char* delim);
 char** parse_line(char* line, char* delim, int num_tokens);
 
 // inputs: char** args
-// returns: char** that has everything in args, but with the whitespace trimmed off
+// returns: char** that has everything in args, but with the whitespace trimmed off on either end
 // trims off whitespace: \n, spaces, etc and other random stuff, then frees the input
 
-void trim(char** args, int num_args);
+void trim(char** args);
 
 
 //                      RUNNING THE THING
