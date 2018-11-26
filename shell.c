@@ -101,7 +101,7 @@ int run(char** args) {
     } 
     //external commands
     else {
-        execvp(".", args);
+        execvp(args[0], args);
         printf("child is done!\n");
         return 0;
     }
