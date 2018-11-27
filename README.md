@@ -6,8 +6,7 @@
 
 ## known bugs:
 
-1. commands like ls             -l dont work
-
+1. a command like echo "hmm help" mght not work 
 
 ## functions and descriptions:
 
