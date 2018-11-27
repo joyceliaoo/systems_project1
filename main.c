@@ -12,7 +12,6 @@
 #include "shell.h"
 #include "test.h"
 
-
 int main() {
 	// testing code:
 	// printf("testing num_tokens\n");
@@ -21,37 +20,37 @@ int main() {
 
     while (1) {
 		// ask for command line input
-        printf("> ");
-		char l[100]; // buffer for what the user enters 
-		fgets(l, 100, stdin); //reads user input	
-		l[strlen(l)-1] = '\0'; //remove trailing \n character	
+      printf("> ");
+  		char l[100]; // buffer for what the user enters
+  		fgets(l, 100, stdin); //reads user input
+  		l[strlen(l)-1] = '\0'; //remove trailing \n character
 
-		/*// testing*/
-		/*printf("you entered: %s\n", l);*/
+  		/*// testing*/
+  		/*printf("you entered: %s\n", l);*/
 
-		// parse the input
-		int num_lines = num_tokens(l, ";");
-		char** lines = parse_line(l, ";", num_lines); // split it into the different commands
+  		// parse the input
+  		int num_lines = num_tokens(l, ";");
+  		char** lines = parse_line(l, ";", num_lines); // split it into the different commands
 
-        printf("-----parsing for ; :\n");
-		printf("commands received: \n");
-		print_arr(lines);
-        trim(lines);
-        printf("after trim: ");
-		print_arr(lines);
-        printf("-----\n\n");
+      printf("-----parsing for ; -----\n");
+  		printf("commands received: \n");
+  		print_arr(lines);
+      //trim(lines);
+      printf("-----\n\n");
 
-		int i =  num_lines; // placeholder for num of lines
-		char** curr_line;
-		while (i) { 
-            printf("-----parsing for [ ] :\n");
-			//count num of args in each commands
-			int num_args = num_tokens(	lines[num_lines-i], " ");
-			//take each command and parse into array of args
-			curr_line = parse_line(lines[num_lines-i], " ", num_args); // parse by " "
-            print_arr(curr_line);				
-            printf("-----\n\n");
-           
+  		int i =  num_lines; // placeholder for num of lines
+  		char** curr_line;
+  		while (i) {
+          printf("-----parsing for [ ] -----\n");
+    			//count num of args in each commands
+    			int num_args = num_tokens(	lines[num_lines-i], " ");
+    			//take each command and parse into array of args
+    			curr_line = parse_line(lines[num_lines-i], " ", num_args); // parse by " "
+          print_arr(curr_line);
+          trim(curr_line);
+          print_arr(curr_line);
+          printf("-----\n\n");
+          if (curr_line[0]) {
             int f = fork();
             // run
             if (f) { // parent
@@ -70,11 +69,11 @@ int main() {
                 print_arr(curr_line);
                 return run(curr_line); //to end child process
             }
-			i--;
-		}	
+          }
+			  i--;
+		}
 
 		// rinse and repeat :)
     }
 	return 0;
 }
-
