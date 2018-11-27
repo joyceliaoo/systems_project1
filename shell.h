@@ -19,10 +19,15 @@ char** parse_line(char* line, char* delim, int num_tokens);
 
 // inputs: char** args
 // returns: char** that has everything in args, but with the whitespace trimmed off on either end
-// trims off whitespace: \n, spaces, etc and other random stuff, then frees the input
+// trims off whitespace: \t, spaces, etc and other random stuff
 
 void trim(char** args);
 
+// inputs: char c
+// returns: 1 if c is some sort of white space charactere, 0 otherwise
+// checks to see if c is '\t' or ' ' 
+
+char is_space(char c);
 
 //                      RUNNING THE THING
 

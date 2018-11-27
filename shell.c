@@ -44,24 +44,44 @@ char** parse_line(char* line, char* delim, int num_tokens) {
 void trim(char** args) {
     int string_offset = 0;
     while (args[string_offset]) { // now considering just strings
+        char* trimmed_str = malloc(500); //malloc(sizeof(args[string_offset]));
         int char_offset = 0;
-        int earliest_letter = 0;
-        int latest_letter = -1;
+        int trim_index = 0;
+        char found_beginning = 0;
+        char prev_char = 0;
+        //  get rid of around and inside
         while(args[string_offset][char_offset]) {         
-            if( args[string_offset][char_offset] != ' ' &&  earliest_letter > latest_letter) {
-                earliest_letter = char_offset;
-                latest_letter = char_offset;
-            } else if(args[string_offset][char_offset] != ' ') {
-                latest_letter = char_offset;
+            /*if( is_space(args[string_offset][char_offset]) && !found_beginning) {*/
+                /*trimmed_str[trim_index] = args[string_offset][char_offset];*/
+                /*trim_index++;*/
+                /*found_beginning = 1;*/
+            /*} else*/
+            if( is_space(args[string_offset][char_offset]) ) {
+                // get rid of multiple spaces in a row
+                if (!is_space(prev_char)) {
+                    trimmed_str[trim_index] = ' ';
+                    trim_index ++;
+                    prev_char = args[string_offset][char_offset];
+                }
+            } else {
+                found_beginning = 1;
+                trimmed_str[trim_index] = args[string_offset][char_offset];
+                trim_index ++;
+                prev_char = args[string_offset][char_offset];
             }
             char_offset ++;
         }
-        printf("%d, %d\n", earliest_letter, latest_letter);
-        args[string_offset][latest_letter + 1] = 0;
-        args[string_offset] = &args[string_offset][earliest_letter];
+        printf("%s: trimmed ver\n", trimmed_str);
+        args[string_offset] = trimmed_str; // this part is giving me issues but i dont rlly get it lmao
+        free(args[string_offset]);
         string_offset++;
+
     }
 }
+
+char is_space(char c) {
+    return (c == 0 || c == ' ' || c == '\t');
+}    
 
 /*void trim(char **args, int num_args) {*/
     /*int cur = 0;*/
