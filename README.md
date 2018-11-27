@@ -6,6 +6,9 @@
 
 ## known bugs:
 
+1. commands like ls             -l dont work
+
+
 ## functions and descriptions:
 
 ``` C
