@@ -130,10 +130,10 @@ int redirect(char ** args1, char** args2) {
 	
 }
 
-int pipe(char ** args1, char** args2) {
+int pipe(char** args1, char** args2) {
 	int fds[2];
 	pipe(fds);
-	f = fork();
+	int f = fork();
 	if (f == 0) { // child; will write output
 		// close read 
 		// execute args 1

@@ -40,6 +40,8 @@ int run(char** args);
 
 int redirect(char** args1, char** args2);
 
+int pipe(char ** args1, char** args2);
+
 
 //                      ACTUAL COMMANDS
 
