@@ -12,6 +12,24 @@
 #include "shell.h"
 #include "test.h"
 
+//  GENERAL STRUCTURE
+
+// ask for comamnd line inout *
+// parse by semicolon *
+// fork
+// count redirects
+// 		parse redirects
+// 		parse by space	
+// 		run redirec
+// count pipes
+// parse by |
+// 		parse | 
+// 		parse by space
+// 		run pipe 
+// else normal *
+
+
+
 int main() {
 	// testing code:
 	// printf("testing num_tokens\n");
@@ -41,6 +59,43 @@ int main() {
   		int i =  num_lines; // placeholder for num of lines
   		char** curr_line;
   		while (i) {
+
+
+		// REDIRECT
+		// ---------------------------------------------------------
+		
+
+
+		// ---------------------------------------------------------
+
+
+
+
+
+
+
+		// PIPE
+		// ---------------------------------------------------------
+
+
+
+
+		// ---------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+		// NORMAL FUNCTION, no pipe, no redirect
+		// ---------------------------------------------------------
           printf("-----parsing for [ ] -----\n");
     			//count num of args in each commands
     			int num_args = num_tokens(	lines[num_lines-i], " ");
@@ -73,7 +128,8 @@ int main() {
 			  i--;
 		}
 
-		// rinse and repeat :)
+		// ---------------------------------------------------------
+
     }
 	return 0;
 }

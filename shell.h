@@ -38,6 +38,9 @@ char is_space(char c);
 
 int run(char** args);
 
+int redirect(char** args1, char** args2);
+
+
 //                      ACTUAL COMMANDS
 
 // inputs: char* d_name

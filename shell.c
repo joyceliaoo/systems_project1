@@ -11,6 +11,9 @@
 #include <sys/wait.h>
 #include "shell.h"
 
+#define READ 0
+#define WRITE 1
+
 //  dealing w parsing text
 
 unsigned int num_tokens(char* line, char* delim) {
@@ -91,25 +94,6 @@ char is_space(char c) {
     return (c == 0 || c == ' ' || c == '\t' || c == '\0');
 }
 
-/*void trim(char **args, int num_args) {*/
-    /*int cur = 0;*/
-    /*int extra = 0; //count how many extra spaces there are*/
-    /*//go through the array*/
-    /*while (cur < num_args - 1) {*/
-        /*//if an arg is a space or \0 char, shift next arg to where the space is*/
-        /*if (args[cur][0] == '\0' || args[cur][0] == ' ') {*/
-            /*extra++;*/
-            /*strcpy(args[cur], args[cur+1]);*/
-            /*//arg that has been shifted is replaced by space*/
-            /*strcpy(args[cur+1], " ");*/
-        /*}*/
-        /*cur++;*/
-    /*}*/
-    /*//check last string in arr*/
-    /*if (args[cur][0] == '\0' || args[cur][0] == ' ') extra++;*/
-    /*//get rid of all extra spaces but cutting the end off*/
-    /*args[num_args - extra] = NULL;*/
-/*}*/
 
 
 // running things, commands
@@ -133,4 +117,33 @@ int run(char** args) {
         printf("child is done!\n");
         return 0;
     }
+}
+
+int redirect(char ** args1, char** args2) {
+	// output of args1 goes into args2
+	// copy stdout so we have a backup
+	// set args2 as stdout
+	// fork
+	// 		child: run first command
+	// 		parent: wait
+	// change back
+	
+}
+
+int pipe(char ** args1, char** args2) {
+	int fds[2];
+	pipe(fds);
+	f = fork();
+	if (f == 0) { // child; will write output
+		// close read 
+		// execute args 1
+		// take stdout and write it into the pipe	
+		// close write
+	} else { // parent, will take output, and use it to run
+		// close write 
+		// take pipe and write it into stdin
+		// execute args 2 
+		// close write
+
+	} 
 }

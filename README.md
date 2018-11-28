@@ -2,11 +2,16 @@
 
 ## currently working:
 1. can parse text!
+2. can run multi-line commands
+3. can exit
 
 
 ## known bugs:
 
 1. a command like echo "hmm help" mght not work 
+2. cannot cd
+3. cannot redirect
+4. cannot pipe
 
 ## functions and descriptions:
 
