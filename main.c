@@ -17,16 +17,12 @@
 // ask for comamnd line inout *
 // parse by semicolon *
 // fork
-// count redirects
-// 		parse redirects
-// 		parse by space	
-// 		run redirec
-// count pipes
-// parse by |
-// 		parse | 
-// 		parse by space
-// 		run pipe 
-// else normal *
+// parse by space
+//      read args until we find either a redirect or a pipe or end of array
+//      if there is either: then continue until the next redirect or pipe or end of array
+//          put them into the redirect/pipe functions
+//          execute functions
+//      else normal *
 
 
 
@@ -77,7 +73,8 @@ int main() {
 		// PIPE
 		// ---------------------------------------------------------
 
-
+        printf("-----parsing for [>] -----\n");
+        
 
 
 		// ---------------------------------------------------------
