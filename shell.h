@@ -1,7 +1,7 @@
 #ifndef shell
 #define shell
 
-
+//                      SOME AESTHETICS
 
 //                      DEALING W TEXT
 
