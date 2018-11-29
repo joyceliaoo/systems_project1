@@ -11,7 +11,6 @@
 #include <sys/wait.h>
 #include "shell.h"
 #include "test.h"
-#include "text_parse.h"
 
 //  GENERAL STRUCTURE
 
@@ -130,14 +129,14 @@ int main() {
 		}
 
 		// ---------------------------------------------------------
-    char ** arg1;
-    arg1[0] = "ls";
-    arg1[1] = NULL;
-    char ** arg2;
-    arg2[0] = "grep";
-    arg2[1] = ".c";
-    arg2[2] = NULL;
-    ter_pipe(arg1, arg2);
+    // char ** arg1;
+    // arg1[0] = "ls";
+    // arg1[1] = NULL;
+    // char ** arg2;
+    // arg2[0] = "grep";
+    // arg2[1] = ".c";
+    // arg2[2] = NULL;
+    // ter_pipe(arg1, arg2);
     }
 	return 0;
 }
