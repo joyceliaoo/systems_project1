@@ -10,7 +10,6 @@
 #include <signal.h>
 #include <sys/wait.h>
 #include "shell.h"
-#include "text_parse.h"
 
 #define READ 0
 #define WRITE 1
