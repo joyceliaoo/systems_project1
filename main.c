@@ -11,19 +11,22 @@
 #include <sys/wait.h>
 #include "shell.h"
 #include "test.h"
-#include "text_parse.h"
 
 //  GENERAL STRUCTURE
 
 // ask for comamnd line inout *
 // parse by semicolon *
 // fork
-// parse by space
-//      read args until we find either a redirect or a pipe or end of array
-//      if there is either: then continue until the next redirect or pipe or end of array
-//          put them into the redirect/pipe functions
-//          execute functions
-//      else normal *
+// count redirects
+// 		parse redirects
+// 		parse by space
+// 		run redirec
+// count pipes
+// parse by |
+// 		parse |
+// 		parse by space
+// 		run pipe
+// else normal *
 
 
 
@@ -35,23 +38,23 @@ int main() {
 
     while (1) {
 		// ask for command line input
-        printf("> ");
+      printf("> ");
   		char l[100]; // buffer for what the user enters
   		fgets(l, 100, stdin); //reads user input
   		l[strlen(l)-1] = '\0'; //remove trailing \n character
 
-  		/*// testing*/
+      /*// testing*/
   		/*printf("you entered: %s\n", l);*/
 
   		// parse the input
   		int num_lines = num_tokens(l, ";");
   		char** lines = parse_line(l, ";", num_lines); // split it into the different commands
 
-        printf("-----parsing for ; -----\n");
+      printf("-----parsing for ; -----\n");
   		printf("commands received: \n");
   		print_arr(lines);
-        //trim(lines);
-        printf("-----\n\n");
+      //trim(lines);
+      printf("-----\n\n");
 
   		int i =  num_lines; // placeholder for num of lines
   		char** curr_line;
@@ -60,7 +63,7 @@ int main() {
 
 		// REDIRECT
 		// ---------------------------------------------------------
-		
+
 
 
 		// ---------------------------------------------------------
@@ -74,8 +77,7 @@ int main() {
 		// PIPE
 		// ---------------------------------------------------------
 
-        printf("-----parsing for [>] -----\n");
-        
+
 
 
 		// ---------------------------------------------------------
@@ -95,10 +97,10 @@ int main() {
 		// NORMAL FUNCTION, no pipe, no redirect
 		// ---------------------------------------------------------
           printf("-----parsing for [ ] -----\n");
-          //count num of args in each commands
-          int num_args = num_tokens(	lines[num_lines-i], " ");
-          //take each command and parse into array of args
-          curr_line = parse_line(lines[num_lines-i], " ", num_args); // parse by " "
+    			//count num of args in each commands
+    			int num_args = num_tokens(	lines[num_lines-i], " ");
+    			//take each command and parse into array of args
+    			curr_line = parse_line(lines[num_lines-i], " ", num_args); // parse by " "
           print_arr(curr_line);
           trim(curr_line);
           print_arr(curr_line);
@@ -127,7 +129,14 @@ int main() {
 		}
 
 		// ---------------------------------------------------------
-
+    char ** arg1;
+    arg1[0] = "ls";
+    arg1[1] = NULL;
+    char ** arg2;
+    arg2[0] = "grep";
+    arg2[1] = ".c";
+    arg2[2] = NULL;
+    ter_pipe(arg1, arg2);
     }
 	return 0;
 }
