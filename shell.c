@@ -11,8 +11,6 @@
 #include <sys/wait.h>
 #include "shell.h"
 
-#define READ 0
-#define WRITE 1
 
 //  dealing w parsing text
 
@@ -130,7 +128,7 @@ int redirect(char ** args1, char** args2) {
 	
 }
 
-int pipe(char** args1, char** args2) {
+int ter_pipe(char** args1, char** args2) {
 	int fds[2];
 	pipe(fds);
 	int f = fork();

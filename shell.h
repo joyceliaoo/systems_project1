@@ -2,6 +2,7 @@
 #define shell
 
 
+
 //                      DEALING W TEXT
 
 // inputs: char* line, char* delim
@@ -40,7 +41,7 @@ int run(char** args);
 
 int redirect(char** args1, char** args2);
 
-int pipe(char ** args1, char** args2);
+int ter_pipe(char** args1, char** args2);
 
 
 //                      ACTUAL COMMANDS
