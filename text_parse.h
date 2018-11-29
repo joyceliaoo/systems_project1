@@ -30,4 +30,6 @@ void trim(char** args);
 
 char is_space(char c);
 
+char is_redirect_pipe(char* c);
+
 #endif

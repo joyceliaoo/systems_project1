@@ -86,7 +86,24 @@ int main() {
 
 			
             int f = fork();
+
+			// copy things into a new string until you hit a null or | or redirect
+
+			char* segment1 = malloc(sizeof(curr_line[0]);
+
+
+
+			// 		if theres a | or redirect:
+			// 			copy thinggs until you hit a null
+			// 			plug it in
+			
+		
+			
+			
+			
+			
             // run the thing given 
+            // --------------------------------
             if (f) { // parent
             	// wait for child process to finish
                 int status;
@@ -103,8 +120,13 @@ int main() {
                 print_arr(curr_line);
                 return run(curr_line); //to end child process
             }
+            // --------------------------------
+
+
+
           }
 			  i--;
+			free(segment1);
 		} // end while i
 	} // end while 1
 		// ---------------------------------------------------------
