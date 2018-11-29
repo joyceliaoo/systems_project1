@@ -11,6 +11,7 @@
 #include <sys/wait.h>
 #include "shell.h"
 #include "test.h"
+#include "text_parse.h"
 
 //  GENERAL STRUCTURE
 
