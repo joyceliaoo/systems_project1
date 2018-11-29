@@ -18,16 +18,12 @@
 // ask for comamnd line inout *
 // parse by semicolon *
 // fork
-// count redirects
-// 		parse redirects
-// 		parse by space
-// 		run redirec
-// count pipes
-// parse by |
-// 		parse |
-// 		parse by space
-// 		run pipe
-// else normal *
+// parse by string 
+// run args until u reach either a > | or the end
+// 		if u reach a > or | :
+// 			read until the next > or | or the end
+// 			put these into the function
+//		 else normal *
 
 
 
@@ -37,76 +33,58 @@ int main() {
 	// printf("expected: 2; actual: %d\n", num_tokens("ahjfdf fsdfdsf", " "));
 	// printf("expect: 6; actual: %d\n", num_tokens("ahjfdf f sd f d sf", " "));
 
+		//  testing the pipe
+    char ** arg1;
+    arg1[0] = "ls";
+    arg1[1] = NULL;
+    char ** arg2;
+    arg2[0] = "grep";
+    arg2[1] = ".c";
+    arg2[2] = NULL;
+    ter_pipe(arg1, arg2);
+
     while (1) {
 		// ask for command line input
-      printf("> ");
+        printf("> ");
   		char l[100]; // buffer for what the user enters
   		fgets(l, 100, stdin); //reads user input
   		l[strlen(l)-1] = '\0'; //remove trailing \n character
 
-      /*// testing*/
+        /*// testing*/
   		/*printf("you entered: %s\n", l);*/
 
   		// parse the input
   		int num_lines = num_tokens(l, ";");
   		char** lines = parse_line(l, ";", num_lines); // split it into the different commands
 
-      printf("-----parsing for ; -----\n");
+        printf("-----parsing for ; -----\n");
   		printf("commands received: \n");
   		print_arr(lines);
-      //trim(lines);
-      printf("-----\n\n");
+        //trim(lines);
+        printf("-----\n\n");
 
   		int i =  num_lines; // placeholder for num of lines
   		char** curr_line;
   		while (i) {
 
 
-		// REDIRECT
-		// ---------------------------------------------------------
+
+        printf("-----parsing for [ ] -----\n");
+		//count num of args in each commands
+		int num_args = num_tokens(	lines[num_lines-i], " ");
+		//take each command and parse into array of args
+		curr_line = parse_line(lines[num_lines-i], " ", num_args); // parse by " "
+        //  print_arr(curr_line);
+        trim(curr_line);
+        // print_arr(curr_line);
+        printf("-----\n\n");
 
 
+		// curline is the current set of arguments
 
-		// ---------------------------------------------------------
+        if (curr_line[0]) { // if there is an argument...
 
-
-
-
-
-
-
-		// PIPE
-		// ---------------------------------------------------------
-
-
-
-
-		// ---------------------------------------------------------
-
-
-
-
-
-
-
-
-
-
-
-
-
-		// NORMAL FUNCTION, no pipe, no redirect
-		// ---------------------------------------------------------
-          printf("-----parsing for [ ] -----\n");
-    			//count num of args in each commands
-    			int num_args = num_tokens(	lines[num_lines-i], " ");
-    			//take each command and parse into array of args
-    			curr_line = parse_line(lines[num_lines-i], " ", num_args); // parse by " "
-          print_arr(curr_line);
-          trim(curr_line);
-          print_arr(curr_line);
-          printf("-----\n\n");
-          if (curr_line[0]) {
+			
             int f = fork();
             // run
             if (f) { // parent
@@ -127,17 +105,9 @@ int main() {
             }
           }
 			  i--;
-		}
+		} // end while i
 
 		// ---------------------------------------------------------
-    char ** arg1;
-    arg1[0] = "ls";
-    arg1[1] = NULL;
-    char ** arg2;
-    arg2[0] = "grep";
-    arg2[1] = ".c";
-    arg2[2] = NULL;
-    ter_pipe(arg1, arg2);
-    }
+	} // end while(1)
 	return 0;
 }
