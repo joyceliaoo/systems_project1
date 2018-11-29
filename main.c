@@ -11,6 +11,7 @@
 #include <sys/wait.h>
 #include "shell.h"
 #include "test.h"
+#include "text_parse.h"
 
 //  GENERAL STRUCTURE
 
@@ -85,7 +86,7 @@ int main() {
 
 			
             int f = fork();
-            // run
+            // run the thing given 
             if (f) { // parent
             	// wait for child process to finish
                 int status;
@@ -105,7 +106,7 @@ int main() {
           }
 			  i--;
 		} // end while i
-
+	} // end while 1
 		// ---------------------------------------------------------
 	return 0;
 }
