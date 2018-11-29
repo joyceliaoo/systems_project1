@@ -11,6 +11,9 @@
 #include <sys/wait.h>
 #include "shell.h"
 
+#define READ 0
+#define WRITE 1
+
 
 //  dealing w parsing text
 
@@ -134,14 +137,37 @@ int ter_pipe(char** args1, char** args2) {
 	int f = fork();
 	if (f == 0) { // child; will write output
 		// close read 
+        close(fds[READ]);
+        f = fork();
 		// execute args 1
+        if (!f) {
+            return run(args1);
+        } else {
 		// take stdout and write it into the pipe	
+            int status;
+            wait(&status);
+            char output[500];  // MAY NEED TO CHANGE PLACEHOLDER`
+            read(STDOUT_FILENO, output, 500); 
+            write(STDIN_FILENO, output, 500);
+        }
 		// close write
+        close(fds[WRITE]);
 	} else { // parent, will take output, and use it to run
 		// close write 
+        close(fds[WRITE]);
 		// take pipe and write it into stdin
+        char input[500];  // MAY NEED TO CHANGE PLACEHOLDER`
+        read(fds[READ], input, 500); 
+        write(STDIN_FILENO, input, 500);
+        f = fork();
 		// execute args 2 
-		// close write
+        if (!f) { 
+            return run(args2);
+        } 
+            
+		// close read 
+        close(fds[READ]);
 
 	} 
+    return 0;
 }
