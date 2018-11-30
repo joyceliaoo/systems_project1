@@ -43,6 +43,11 @@ int main() {
     /*arg2[2] = NULL;*/
     /*ter_pipe(arg1, arg2);*/
 
+    /*printf("%d", is_redirect_pipe(">"));*/
+    /*printf("%d", is_redirect_pipe("|"));*/
+    /*printf("%d", is_redirect_pipe(">>"));*/
+
+
     while (1) {
           // ask for command line input
           printf("> ");
@@ -87,31 +92,36 @@ int main() {
             // copy things into a new string until you hit a null or | or redirect
 
             char* segment1[10];
+            segment1[9] = NULL;
             char mode = 0;
             int j = 0;
 
 
             while( curr_line[j] && !is_redirect_pipe(curr_line[j])) {
-                printf("%s (currline)\n", curr_line[j]);
+                /*printf("%s (currline)\n", curr_line[j]);*/
                 segment1[j] = curr_line[j];
-                printf("%s (segment)\n", segment1[j]);
+                /*printf("%s (segment)\n", segment1[j]);*/
                 j ++;
-                printf("mad it to the end\n");
+                /*printf("mad it to the end\n");*/
             }
 
-            printf("segment1 copied\n");
-            /*print_arr(segment1);*/
+            print_arr(segment1);
 
-            if (is_redirect_pipe(curr_line[j])) {
-                mode = *curr_line[j];
-                j++;
-            }
 
             char* segment2[10];
-            
-            while( curr_line[j]) {
-                segment2[j] = curr_line[j];
-                j++;
+
+
+            if (curr_line[j]) { // if there is more stuff
+                if (is_redirect_pipe(curr_line[j])) {
+                    mode = curr_line[j][0];
+                    j++;
+                }
+
+                
+                while( curr_line[j]) {
+                    segment2[j] = curr_line[j];
+                    j++;
+                }
             }
 
             /*printf("segment2 copied\n");*/

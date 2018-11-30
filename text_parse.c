@@ -93,7 +93,7 @@ char is_space(char c) {
 }
 
 char is_redirect_pipe(char* c) {
-    if (!strcmp(c, "<") || !strcmp(c, "<<") || !strcmp(c, "2<")) 
+    if (!strcmp(c, ">") || !strcmp(c, ">>") || !strcmp(c, "<")) 
         return 1;
     if (!strcmp(c, "|"))
         return 2;
