@@ -79,18 +79,31 @@ int ter_pipe(char** args1, char** args2) {
         f = fork();
 		// execute args 1
         if (!f) {
+            printf("child\n");
             return run(args1);
         } else {
 		// take stdout and write it into the pipe
             int status;
-            wait(&status);
+            waitpid(f, &status, f);
+
+            /*int child_value = WEXITSTATUS(status); //get return value of run*/
+            /*if (child_value == 1) {*/
+                /*printf("exiting shell...\n");*/
+                /*exit(status);*/
+            /*}*/
+
             char output[500];  // MAY NEED TO CHANGE PLACEHOLDER`
             read(STDOUT_FILENO, output, 500);
-            write(STDIN_FILENO, output, 500);
+            write(fds[WRITE], output, 500);
+            printf("child2\n");
         }
 		// close write
         close(fds[WRITE]);
+        return 0;
 	} else { // parent, will take output, and use it to run
+        int status;
+        waitpid(f, &status, f);
+        printf("parent");
 		// close write
         close(fds[WRITE]);
 		// take pipe and write it into stdin

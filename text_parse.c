@@ -92,5 +92,12 @@ char is_space(char c) {
     return (c == 0 || c == ' ' || c == '\t' || c == '\0');
 }
 
+char is_redirect_pipe(char* c) {
+    if (strcmp(c, "<") ||  strcmp(c, "<<") || strcmp(c, "2<")) 
+        return 1;
+    if (strcmp(c, "|"))
+        return 2;
+    return 0;
+}
 
 
