@@ -88,30 +88,30 @@ int main() {
 
             char* segment1[10];
             char mode = 0;
-            int i = 0;
+            int j = 0;
 
             print_arr(curr_line);
             /*printf("is ls?: %d", is_redirect_pipe("ls"));*/
 
-            while( !is_redirect_pipe(curr_line[i]) && curr_line[i]) {
+            while( !is_redirect_pipe(curr_line[j]) && curr_line[j]) {
                 /*printf("%s (currline)", curr_line[i]);*/
-                strcpy(segment1[i], curr_line[i]);
-                i ++;
+                strcpy(segment1[j], curr_line[j]);
+                j ++;
             }
 
-            /*printf("segment1 copied\n");*/
+            printf("segment1 copied\n");
             /*print_arr(segment1);*/
 
-            if (is_redirect_pipe(curr_line[i])) {
-                mode = *curr_line[i];
-                i++;
+            if (is_redirect_pipe(curr_line[j])) {
+                mode = *curr_line[j];
+                j++;
             }
 
             char* segment2[10];
             
-            while( curr_line[i]) {
-                segment2[i] = curr_line[i];
-                i++;
+            while( curr_line[j]) {
+                segment2[j] = curr_line[j];
+                j++;
             }
 
             /*printf("segment2 copied\n");*/
