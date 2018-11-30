@@ -20,20 +20,20 @@
 // fork
 // parse by string
 // run args until u reach either a > | or the end
-// 		if u reach a > or | :
-// 			read until the next > or | or the end
-// 			put these into the function
-//		 else normal *
+//      if u reach a > or | :
+//          read until the next > or | or the end
+//          put these into the function
+//       else normal *
 
 
 
 int main() {
-	// testing code:
-	// printf("testing num_tokens\n");
-	// printf("expected: 2; actual: %d\n", num_tokens("ahjfdf fsdfdsf", " "));
-	// printf("expect: 6; actual: %d\n", num_tokens("ahjfdf f sd f d sf", " "));
+    // testing code:
+    // printf("testing num_tokens\n");
+    // printf("expected: 2; actual: %d\n", num_tokens("ahjfdf fsdfdsf", " "));
+    // printf("expect: 6; actual: %d\n", num_tokens("ahjfdf f sd f d sf", " "));
 
-		/*//  testing the pipe*/
+        /*//  testing the pipe*/
     /*char * arg1[2];*/
     /*arg1[0] = "ls";*/
     /*arg1[1] = NULL;*/
@@ -71,7 +71,7 @@ int main() {
 
         printf("-----parsing for [ ] -----\n");
         //count num of args in each commands
-        int num_args = num_tokens(	lines[num_lines-i], " ");
+        int num_args = num_tokens(  lines[num_lines-i], " ");
         //take each command and parse into array of args
         curr_line = parse_line(lines[num_lines-i], " ", num_args); // parse by " "
         //  print_arr(curr_line);
@@ -84,48 +84,65 @@ int main() {
 
         if (curr_line[0]) { // if there is an argument...
 
-
-            int f = fork();
-
             // copy things into a new string until you hit a null or | or redirect
 
-            char* segment1[100];
+            char* segment1[10];
             char mode = 0;
             int i = 0;
-            while( !is_redirect_pipe(curr_line[i])) {
-                segment1[i] = curr_line[i];
+
+            print_arr(curr_line);
+            /*printf("is ls?: %d", is_redirect_pipe("ls"));*/
+
+            while( !is_redirect_pipe(curr_line[i]) && curr_line[i]) {
+                /*printf("%s (currline)", curr_line[i]);*/
+                strcpy(segment1[i], curr_line[i]);
                 i ++;
             }
+
+            /*printf("segment1 copied\n");*/
+            /*print_arr(segment1);*/
 
             if (is_redirect_pipe(curr_line[i])) {
                 mode = *curr_line[i];
                 i++;
             }
 
-            char* segment2[100];
+            char* segment2[10];
             
             while( curr_line[i]) {
                 segment2[i] = curr_line[i];
                 i++;
             }
 
-            print_arr(segment1);
-            print_arr(segment2);
+            /*printf("segment2 copied\n");*/
+
+            /*printf("segment1:");*/
+            /*print_arr(segment1);*/
+            /*printf("\nsegment1:");*/
+            /*print_arr(segment2);*/
 
 
-            // 		if theres a | or redirect:
-            // 			copy thinggs until you hit a null
-            // 			plug it in
+
+            //                          PARENT AND CHILD WILL BE HERE
+            int f = fork();
 
 
-            if (mode) { //there is a pipe or redirect
-                if (mode == '|')
-                    ter_pipe(segment1, segment2);
-                redirect(segment1, segment2[0], mode);
-            } else {
-                // run the thing given
-                // --------------------------------
-                if (f) { // parent
+            //      if theres a | or redirect:
+            //          copy thinggs until you hit a null
+            //          plug it in
+
+
+            // run the thing given
+            // --------------------------------
+            if (f) { // parent
+                printf("%c", mode);
+                if (mode) { //there is a pipe or redirect 
+                    if (mode == '|') { 
+                        ter_pipe(segment1, segment2);
+                    } else {
+                        redirect(segment1, segment2[0], mode);
+                    }
+                } else {
                     // wait for child process to finish
                     int status;
                     wait(&status);
@@ -136,17 +153,17 @@ int main() {
                         printf("exiting shell...\n");
                         exit(status);
                     }
-                } else { // child
-                    printf("command to be run next: [%s]\n", curr_line[0]);
-                    print_arr(curr_line);
-                    return run(curr_line); //to end child process
                 }
-                // --------------------------------
+            } else { // child
+                printf("command to be run next: [%s]\n", curr_line[0]);
+                print_arr(curr_line);
+                return run(curr_line); //to end child process
             }
-          }
+            // --------------------------------
+            }
               i--;
         } // end while i
     } // end while 1
-		// ---------------------------------------------------------
-	return 0;
+        // ---------------------------------------------------------
+    return 0;
 }
