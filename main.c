@@ -160,7 +160,7 @@ int main() {
                 return run(curr_line); //to end child process
             }
             // --------------------------------
-            }
+            } //if currline
               i--;
         } // end while i
     } // end while 1
