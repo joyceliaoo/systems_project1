@@ -18,7 +18,7 @@
 // ask for comamnd line inout *
 // parse by semicolon *
 // fork
-// parse by string 
+// parse by string
 // run args until u reach either a > | or the end
 // 		if u reach a > or | :
 // 			read until the next > or | or the end
@@ -84,7 +84,7 @@ int main() {
 
         if (curr_line[0]) { // if there is an argument...
 
-            
+
             int f = fork();
 
             // copy things into a new string until you hit a null or | or redirect
@@ -92,21 +92,23 @@ int main() {
             char* segment1[100];
             char mode = 0;
             int i = 0;
-            while( !is_redirect_pipe(curr_line[i]) && curr_line[i]) {
+            while( !is_redirect_pipe(curr_line[i])) {
                 segment1[i] = curr_line[i];
                 i ++;
             }
 
-            if (is_redirect_pipe(curr_line[i]))
+            if (is_redirect_pipe(curr_line[i])) {
                 mode = *curr_line[i];
-                
+                i++;
+            }
+
             char* segment2[100];
-            i++;
+            
             while( curr_line[i]) {
                 segment2[i] = curr_line[i];
                 i++;
             }
-            
+
             print_arr(segment1);
             print_arr(segment2);
 
@@ -114,13 +116,13 @@ int main() {
             // 		if theres a | or redirect:
             // 			copy thinggs until you hit a null
             // 			plug it in
-            
-        
-            if (mode) { //there is a pipe or redirect	
+
+
+            if (mode) { //there is a pipe or redirect
                 if (mode == '|')
                     ter_pipe(segment1, segment2);
                 redirect(segment1, segment2[0], mode);
-            } else {	
+            } else {
                 // run the thing given
                 // --------------------------------
                 if (f) { // parent
