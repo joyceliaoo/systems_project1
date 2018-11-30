@@ -44,45 +44,45 @@ int main() {
     /*ter_pipe(arg1, arg2);*/
 
     while (1) {
-        // ask for command line input
-        printf("> ");
+          // ask for command line input
+          printf("> ");
           char l[100]; // buffer for what the user enters
           fgets(l, 100, stdin); //reads user input
           l[strlen(l)-1] = '\0'; //remove trailing \n character
 
-        /*// testing*/
+          /*// testing*/
           /*printf("you entered: %s\n", l);*/
 
           // parse the input
           int num_lines = num_tokens(l, ";");
           char** lines = parse_line(l, ";", num_lines); // split it into the different commands
 
-        printf("-----parsing for ; -----\n");
+          printf("-----parsing for ; -----\n");
           printf("commands received: \n");
           print_arr(lines);
-        //trim(lines);
-        printf("-----\n\n");
+          //trim(lines);
+          printf("-----\n\n");
 
           int i =  num_lines; // placeholder for num of lines
           char** curr_line;
           while (i) {
+        
 
 
+          printf("-----parsing for [ ] -----\n");
+          //count num of args in each commands
+          int num_args = num_tokens(  lines[num_lines-i], " ");
+          //take each command and parse into array of args
+          curr_line = parse_line(lines[num_lines-i], " ", num_args); // parse by " "
+          //  print_arr(curr_line);
+          trim(curr_line);
+          // print_arr(curr_line);
+          printf("-----\n\n");
 
-        printf("-----parsing for [ ] -----\n");
-        //count num of args in each commands
-        int num_args = num_tokens(  lines[num_lines-i], " ");
-        //take each command and parse into array of args
-        curr_line = parse_line(lines[num_lines-i], " ", num_args); // parse by " "
-        //  print_arr(curr_line);
-        trim(curr_line);
-        // print_arr(curr_line);
-        printf("-----\n\n");
 
+          // curline is the current set of arguments
 
-        // curline is the current set of arguments
-
-        if (curr_line[0]) { // if there is an argument...
+          if (curr_line[0]) { // if there is an argument...
 
             // copy things into a new string until you hit a null or | or redirect
 
@@ -90,13 +90,13 @@ int main() {
             char mode = 0;
             int j = 0;
 
-            print_arr(curr_line);
-            /*printf("is ls?: %d", is_redirect_pipe("ls"));*/
 
-            while( !is_redirect_pipe(curr_line[j]) && curr_line[j]) {
-                /*printf("%s (currline)", curr_line[i]);*/
-                strcpy(segment1[j], curr_line[j]);
+            while( curr_line[j] && !is_redirect_pipe(curr_line[j])) {
+                printf("%s (currline)\n", curr_line[j]);
+                segment1[j] = curr_line[j];
+                printf("%s (segment)\n", segment1[j]);
                 j ++;
+                printf("mad it to the end\n");
             }
 
             printf("segment1 copied\n");
@@ -117,9 +117,9 @@ int main() {
             /*printf("segment2 copied\n");*/
 
             /*printf("segment1:");*/
-            /*print_arr(segment1);*/
+            print_arr(segment1);
             /*printf("\nsegment1:");*/
-            /*print_arr(segment2);*/
+            print_arr(segment2);
 
 
 
