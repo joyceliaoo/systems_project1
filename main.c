@@ -43,6 +43,16 @@ int main() {
     /*arg2[2] = NULL;*/
     /*ter_pipe(arg1, arg2);*/
 
+        //  testing the redirect 
+    char * arg1[2];
+    arg1[0] = "ls";
+    arg1[1] = NULL;
+    char * arg2[3];
+    arg2[0] = "test.txt";
+    arg2[1] = NULL;
+    redirect(arg1, arg2[0], 1);
+
+
     /*printf("%d", is_redirect_pipe(">"));*/
     /*printf("%d", is_redirect_pipe("|"));*/
     /*printf("%d", is_redirect_pipe(">>"));*/
@@ -122,7 +132,7 @@ int main() {
             if (curr_line[j]) { // if there is more stuff
                 if (is_redirect_pipe(curr_line[j])) {
                     mode = rp_mode( curr_line[j] ); // mode
-                    printf(" redirect was found, mode: [%c]\n", mode);
+                    printf("redirect was found, mode: [%d]\n", mode);
                     j++;
                 }
                 
@@ -141,7 +151,7 @@ int main() {
             print_arr(segment2);
 
 
-            printf( " CODE UP UNTIL HERE WORKS!!\n");
+            printf( "CODE UP UNTIL HERE WORKS!!\n");
 
 
             //                          PARENT AND CHILD WILL BE HERE
@@ -167,7 +177,7 @@ int main() {
                         exit(status);
                     }
             } else { // child
-                printf("mode: %c\n", mode);
+                printf("mode: %d\n", mode);
                 if (mode) { //there is a pipe or redirect 
                     if (mode == 3) { 
                         ter_pipe(segment1, segment2);
