@@ -92,7 +92,6 @@ int main() {
             // copy things into a new string until you hit a null or | or redirect
 
             char* segment1[10];
-            segment1[9] = NULL;
             char mode = 0;
             int j = 0;
 
@@ -104,11 +103,14 @@ int main() {
                 j ++;
                 /*printf("mad it to the end\n");*/
             }
+            segment1[j] = NULL; 
 
+            printf("segment1:\n");
             print_arr(segment1);
 
 
             char* segment2[10];
+
 
 
             if (curr_line[j]) { // if there is more stuff
@@ -126,9 +128,7 @@ int main() {
 
             /*printf("segment2 copied\n");*/
 
-            printf("segment1:");
-            print_arr(segment1);
-            printf("\nsegment1:");
+            printf("segment1:\n");
             print_arr(segment2);
 
 
