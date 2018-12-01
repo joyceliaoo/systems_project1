@@ -100,4 +100,13 @@ char is_redirect_pipe(char* c) {
     return 0;
 }
 
-
+char rp_mode( char* s) {
+    if (!strcmp(s, "|"))
+        return 2;
+    if (!strcmp(s, ">"))
+        return 0;
+    if (!strcmp(s, ">>"))
+        return 1;
+    return 3; // if it returns 3 theres smth wrong
+}
+    

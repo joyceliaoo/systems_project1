@@ -115,20 +115,20 @@ int main() {
 
             if (curr_line[j]) { // if there is more stuff
                 if (is_redirect_pipe(curr_line[j])) {
-                    mode = curr_line[j][0];
+                    mode = rp_mode( curr_line[j] ); // mode
                     j++;
                 }
-
                 
                 while( curr_line[j]) {
                     segment2[j] = curr_line[j];
                     j++;
                 }
+                segment2[j] = NULL;
             }
 
             /*printf("segment2 copied\n");*/
 
-            printf("segment1:\n");
+            printf("segment2:\n");
             print_arr(segment2);
 
 
