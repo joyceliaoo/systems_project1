@@ -81,7 +81,7 @@ int main() {
           curr_line = parse_line(lines[num_lines-i], " ", num_args); // parse by " "
           //  print_arr(curr_line);
           trim(curr_line);
-          // print_arr(curr_line);
+          /*print_arr(curr_line);*/
           printf("-----\n\n");
 
 
@@ -126,9 +126,9 @@ int main() {
 
             /*printf("segment2 copied\n");*/
 
-            /*printf("segment1:");*/
+            printf("segment1:");
             print_arr(segment1);
-            /*printf("\nsegment1:");*/
+            printf("\nsegment1:");
             print_arr(segment2);
 
 
@@ -145,14 +145,6 @@ int main() {
             // run the thing given
             // --------------------------------
             if (f) { // parent
-                printf("%c", mode);
-                if (mode) { //there is a pipe or redirect 
-                    if (mode == '|') { 
-                        ter_pipe(segment1, segment2);
-                    } else {
-                        redirect(segment1, segment2[0], mode);
-                    }
-                } else {
                     // wait for child process to finish
                     int status;
                     wait(&status);
@@ -163,11 +155,21 @@ int main() {
                         printf("exiting shell...\n");
                         exit(status);
                     }
-                }
             } else { // child
-                printf("command to be run next: [%s]\n", curr_line[0]);
-                print_arr(curr_line);
-                return run(curr_line); //to end child process
+                printf("%c", mode);
+                if (mode) { //there is a pipe or redirect 
+                    if (mode == '|') { 
+                        ter_pipe(segment1, segment2);
+                    } else {
+                        
+                        redirect(segment1, segment2[0], 0);
+                    }
+                } else {
+                    printf("command to be run next: [%s]\n", curr_line[0]);
+                    print_arr(curr_line);
+                    printf("child executed and there were not pipes or redirects\n");
+                    return run(curr_line); //to end child process
+                }
             }
             // --------------------------------
             } //if currline
