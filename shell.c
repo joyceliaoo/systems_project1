@@ -80,7 +80,7 @@ int ter_pipe(char** args1, char** args2) {
 		// execute args 1
         if (!f) {
             printf("child\n");
-            return run(args1);
+            run(args1);
         } else {
 		// take stdout and write it into the pipe
             int status;
@@ -94,6 +94,7 @@ int ter_pipe(char** args1, char** args2) {
 
             char output[500];  // MAY NEED TO CHANGE PLACEHOLDER`
             read(STDOUT_FILENO, output, 500);
+            printf("output: %s\n", output);
             write(fds[WRITE], output, 500);
             printf("child2\n");
         }

@@ -33,24 +33,24 @@ int main() {
     // printf("expected: 2; actual: %d\n", num_tokens("ahjfdf fsdfdsf", " "));
     // printf("expect: 6; actual: %d\n", num_tokens("ahjfdf f sd f d sf", " "));
 
-        /*//  testing the pipe*/
-    /*char * arg1[2];*/
-    /*arg1[0] = "ls";*/
-    /*arg1[1] = NULL;*/
-    /*char * arg2[3];*/
-    /*arg2[0] = "grep";*/
-    /*arg2[1] = ".c";*/
-    /*arg2[2] = NULL;*/
-    /*ter_pipe(arg1, arg2);*/
-
-        //  testing the redirect 
+        //  testing the pipe
     char * arg1[2];
     arg1[0] = "ls";
     arg1[1] = NULL;
     char * arg2[3];
-    arg2[0] = "test.txt";
-    arg2[1] = NULL;
-    redirect(arg1, arg2[0], 1);
+    arg2[0] = "grep";
+    arg2[1] = ".c";
+    arg2[2] = NULL;
+    ter_pipe(arg1, arg2);
+
+        /*//  testing the redirect */
+    /*char * arg1[2];*/
+    /*arg1[0] = "ls";*/
+    /*arg1[1] = NULL;*/
+    /*char * arg2[3];*/
+    /*arg2[0] = "test.txt";*/
+    /*arg2[1] = NULL;*/
+    /*redirect(arg1, arg2[0], 1);*/
 
 
     /*printf("%d", is_redirect_pipe(">"));*/
