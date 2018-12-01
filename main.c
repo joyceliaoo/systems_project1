@@ -47,6 +47,7 @@ int main() {
     /*printf("%d", is_redirect_pipe("|"));*/
     /*printf("%d", is_redirect_pipe(">>"));*/
 
+    /*printf("%d", rp_mode(">"));*/
 
     while (1) {
           // ask for command line input
@@ -70,6 +71,10 @@ int main() {
 
           int i =  num_lines; // placeholder for num of lines
           char** curr_line;
+
+
+
+          // this while is for multiple arguments
           while (i) {
         
 
@@ -92,7 +97,7 @@ int main() {
             // copy things into a new string until you hit a null or | or redirect
 
             char* segment1[10];
-            char mode = 0;
+            int mode = 0;
             int j = 0;
 
 
@@ -113,14 +118,18 @@ int main() {
 
 
 
+            int k = 0;
             if (curr_line[j]) { // if there is more stuff
                 if (is_redirect_pipe(curr_line[j])) {
                     mode = rp_mode( curr_line[j] ); // mode
+                    printf(" redirect was found, mode: [%c]\n", mode);
                     j++;
                 }
                 
                 while( curr_line[j]) {
-                    segment2[j] = curr_line[j];
+                    printf("segment2 added\n");
+                    segment2[k] = curr_line[j];
+                    k ++;
                     j++;
                 }
                 segment2[j] = NULL;
@@ -131,6 +140,8 @@ int main() {
             printf("segment2:\n");
             print_arr(segment2);
 
+
+            printf( " CODE UP UNTIL HERE WORKS!!\n");
 
 
             //                          PARENT AND CHILD WILL BE HERE
@@ -156,13 +167,12 @@ int main() {
                         exit(status);
                     }
             } else { // child
-                printf("%c", mode);
+                printf("mode: %c\n", mode);
                 if (mode) { //there is a pipe or redirect 
-                    if (mode == '|') { 
+                    if (mode == 3) { 
                         ter_pipe(segment1, segment2);
                     } else {
-                        
-                        redirect(segment1, segment2[0], 0);
+                        redirect(segment1, segment2[0], mode);
                     }
                 } else {
                     printf("command to be run next: [%s]\n", curr_line[0]);

@@ -40,7 +40,7 @@ int run(char** args) {
 }
 
 int redirect(char** args1, char* file, char mode) {
-  // mode 0 = WRONLY, 1 = APPEND
+  // mode 1 = WRONLY, 2 = APPEND
 	// output of args1 goes into file
 	// copy stdout so we have a backup
 	// set args2 as stdout
@@ -49,7 +49,7 @@ int redirect(char** args1, char* file, char mode) {
 	// 		parent: wait
 	// change back
     int redirect_type; //distinguish between < and <<
-    if (mode) redirect_type = O_APPEND;
+    if (mode == 2) redirect_type = O_APPEND;
     else redirect_type = O_WRONLY;
 
     int backup = dup(STDOUT_FILENO);

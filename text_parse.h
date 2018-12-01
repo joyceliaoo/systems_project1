@@ -32,6 +32,6 @@ char is_space(char c);
 
 char is_redirect_pipe(char* c);
 
-char rp_mode( char* s);
+int rp_mode( char* s);
 
 #endif
