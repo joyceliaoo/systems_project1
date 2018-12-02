@@ -33,15 +33,15 @@ int main() {
     // printf("expected: 2; actual: %d\n", num_tokens("ahjfdf fsdfdsf", " "));
     // printf("expect: 6; actual: %d\n", num_tokens("ahjfdf f sd f d sf", " "));
 
-        //  testing the pipe
-    char * arg1[2];
-    arg1[0] = "ls";
-    arg1[1] = NULL;
-    char * arg2[3];
-    arg2[0] = "grep";
-    arg2[1] = ".c";
-    arg2[2] = NULL;
-    ter_pipe(arg1, arg2);
+        /*//  testing the pipe*/
+    /*char * arg1[2];*/
+    /*arg1[0] = "ls";*/
+    /*arg1[1] = NULL;*/
+    /*char * arg2[3];*/
+    /*arg2[0] = "grep";*/
+    /*arg2[1] = ".c";*/
+    /*arg2[2] = NULL;*/
+    /*ter_pipe(arg1, arg2);*/
 
         /*//  testing the redirect */
     /*char * arg1[2];*/
@@ -61,7 +61,7 @@ int main() {
 
     while (1) {
           // ask for command line input
-          printf("> ");
+          print_prompt();
           char l[100]; // buffer for what the user enters
           fgets(l, 100, stdin); //reads user input
           l[strlen(l)-1] = '\0'; //remove trailing \n character

@@ -14,7 +14,9 @@
 #define READ 0
 #define WRITE 1
 
-
+void print_prompt() {
+    printf("> ");
+}
 
 // running things, commands
 int run(char** args) {
