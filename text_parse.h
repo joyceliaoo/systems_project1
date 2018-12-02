@@ -36,4 +36,6 @@ int rp_mode( char* s);
 
 char count_redirect(char ** args);
 
+char count_pipe(char ** args);
+
 #endif

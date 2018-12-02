@@ -116,7 +116,7 @@ char count_redirect(char ** args) {
 	int i = 0;
 	int num = 0;
 	while(args[i]) {
-		if (is_redirect_pipe(args[i])){
+		if (is_redirect_pipe(args[i]) == 1){
 			num++;
 			//printf("redirect found!\n");
 		}
@@ -124,3 +124,17 @@ char count_redirect(char ** args) {
 	}
 	return num;
 }
+
+char count_pipe(char ** args) {
+	int i = 0;
+	int num = 0;
+	while(args[i]) {
+		if (is_redirect_pipe(args[i]) == 2){
+			num++;
+			//printf("redirect found!\n");
+		}
+		i++;
+	}
+	return num;
+}
+

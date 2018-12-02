@@ -43,6 +43,7 @@ int main() {
     /*arg2[2] = NULL;*/
     /*ter_pipe(arg1, arg2);*/
 
+
         /*//  testing the redirect */
     /*char * arg1[2];*/
     /*arg1[0] = "ls";*/
@@ -140,15 +141,11 @@ int main() {
                   // printf("segment2:\n");
                   // print_arr(segment2);
 
-                  printf( "CODE UP UNTIL HERE WORKS!!\n");
 
                   //                          PARENT AND CHILD WILL BE HERE
                   int f = fork();
 
 
-                  //      if theres a | or redirect:
-                  //          copy thinggs until you hit a null
-                  //          plug it in
 
 
                   // run the thing given

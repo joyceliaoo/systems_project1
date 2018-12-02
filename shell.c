@@ -16,11 +16,17 @@
 
 #define READ 0
 #define WRITE 1
+#define KCYN  "\x1B[36m"
+#define KMAG  "\x1B[35m"
+#define KNRM  "\x1B[0m"
+
+
+
 
 void print_prompt() {
     char cwd[PATH_MAX]; //buffer to store cwd
     getcwd(cwd, sizeof(cwd));
-    printf("%s HJ> ", cwd);
+    printf("%s %s %s[HJ]%s> ", KCYN, cwd, KMAG, KNRM);
 }
 
 // running things, commands
@@ -40,8 +46,8 @@ int run(char** args) {
     char num_red = count_redirect(args);
     if (num_red) {
         return redirect(args, num_red);
-    }
-    else {
+    } else {
+        printf("no pipes, redirects found\n");
         return execvp(args[0], args);
     }
 }
@@ -52,14 +58,14 @@ int redirect(char** args, char num) {
 	// output of args1 goes into file
 	// copy stdout so we have a backup
 	// set args2 as stdout
-	// fork
+	// fore
 	// 		child: run first command
 	// 		parent: wait
 	// change back
     char * cmd[10];
     char * file;
-    char args_offset = 0;
-    char i = 0;
+    int args_offset = 0;
+    int i = 0;
     int mode = 0;
     int backup[num];
     int backup_type[num];
@@ -90,7 +96,7 @@ int redirect(char** args, char num) {
         backup_count++;
         close(fd);
         num--;
-    }
+    } // end of while (num)
     int f = fork();
     if (!f) { // if child
         run(cmd);
@@ -153,49 +159,47 @@ int ter_pipe(char** args1, char** args2) {
 	if (f == 0) { // child; will write output
 		// close read
         close(fds[READ]);
-        f = fork();
+        int backup = dup(STDOUT_FILENO);
+        dup2(fds[WRITE], STDOUT_FILENO);
+        int g = fork();
+
+        
 		// execute args 1
-        if (!f) {
-            printf("child\n");
+        if (!g) {
             run(args1);
-        } else {
-		// take stdout and write it into the pipe
-            int status;
-            waitpid(f, &status, f);
-
-            /*int child_value = WEXITSTATUS(status); //get return value of run*/
-            /*if (child_value == 1) {*/
-                /*printf("exiting shell...\n");*/
-                /*exit(status);*/
-            /*}*/
-
-            char output[500];  // MAY NEED TO CHANGE PLACEHOLDER`
-            read(STDOUT_FILENO, output, 500);
-            printf("output: %s\n", output);
-            write(fds[WRITE], output, 500);
-            printf("child2\n");
-        }
+        } 
 		// close write
         close(fds[WRITE]);
-        return 0;
+
+        // return the backup 
+        dup2(backup, STDOUT_FILENO);
+
+        exit(0);
 	} else { // parent, will take output, and use it to run
-        int status;
-        waitpid(f, &status, f);
-        printf("parent");
+
 		// close write
         close(fds[WRITE]);
-		// take pipe and write it into stdin
-        char input[500];  // MAY NEED TO CHANGE PLACEHOLDER`
-        read(fds[READ], input, 500);
-        write(STDIN_FILENO, input, 500);
-        f = fork();
-		// execute args 2
-        if (!f) {
-            return run(args2);
-        }
 
+        int backup = dup(STDIN_FILENO);
+        dup2(fds[READ], STDIN_FILENO);
+
+        int g = fork();
+
+
+
+		// execute args 2
+        if (!g) {
+            /*printf("about to run\n");*/
+            run(args2);
+        } 
+
+        int status;
+        waitpid(g, &status, 0);
+        
 		// close read
         close(fds[READ]);
+        // revert
+        dup2(backup, STDIN_FILENO);
 
 	}
     return 0;
