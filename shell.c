@@ -12,6 +12,7 @@
 #include <limits.h>
 #include "shell.h"
 #include "text_parse.h"
+#include "test.h"
 
 #define READ 0
 #define WRITE 1
@@ -24,7 +25,6 @@ void print_prompt() {
 
 // running things, commands
 int run(char** args) {
-    char num_red = count_redirect(args);
     //internal commands
     //cd
     if (!strcmp(args[0], "cd")){
@@ -37,6 +37,7 @@ int run(char** args) {
         return 3; //let main know exit is called
     }
     //external commands
+    char num_red = count_redirect(args);
     if (num_red) {
         return redirect(args, num_red);
     }
@@ -55,38 +56,40 @@ int redirect(char** args, char num) {
 	// 		child: run first command
 	// 		parent: wait
 	// change back
-    char ** cmd;
+    char * cmd[10];
     char * file;
     char args_offset = 0;
     char i = 0;
     int mode = 0;
-    int backup;
-    int backup_type;
+    int backup[num];
+    int backup_type[num];
+    int backup_count = 0;
     int fd;
-    char* args1[10]; //args before redirect
-    char* args2[10]; //args after redirect
-
     while (num) { //there are more redirects
-        num--;
         while(!is_redirect_pipe(args[args_offset])) {
+            //printf("next %s\n", args[args_offset]);
             cmd[i++] = args[args_offset++];
         }
-        args1[i] = NULL;
+        cmd[i] = NULL;
+        //print_arr(cmd);
         mode = rp_mode(args[args_offset]);
+        //printf("mode : %d \n", mode);
         args_offset++;
-        file = args[args_offset];
-        i = 0; //start at beginning
+        file = args[args_offset++];
         if (mode == 3) {//if <
-            backup_type = STDIN_FILENO;
+            backup_type[backup_count] = STDIN_FILENO;
             fd = open(file, O_RDONLY);
+            if (fd == -1) return 1; //if not valid file name
         }
         else if (mode == 1) {// if >
-            backup_type = STDOUT_FILENO;
+            backup_type[backup_count] = STDOUT_FILENO;
             fd = open(file, O_CREAT | O_WRONLY, 0777);
         }
-        backup = dup(backup_type);
-        dup2(fd, backup_type);
+        backup[backup_count] = dup(backup_type[backup_count]);
+        dup2(fd, backup_type[backup_count]);
+        backup_count++;
         close(fd);
+        num--;
     }
     int f = fork();
     if (!f) { // if child
@@ -95,7 +98,10 @@ int redirect(char** args, char num) {
     else {
         int status;
         wait(&status);
-        dup2(backup, backup_type);
+        while(backup_count+1){
+            dup2(backup[backup_count], backup_type[backup_count]);
+            backup_count--;
+        }
     }
     return 0;
 }
