@@ -71,7 +71,7 @@ int redirect(char** args1, char** args2, char mode) {
         fd = open(file, O_CREAT | O_WRONLY, 0777);
     else if (mode == 2) // if >>
         fd = open(file, O_CREAT | O_WRONLY | O_APPEND, 0777);
-    else  // if < or <<
+    else  // if <
         fd = open(file, O_RDONLY);
 
     dup2(fd, type);
