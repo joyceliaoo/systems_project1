@@ -26,12 +26,14 @@ void trim(char** args);
 
 // inputs: char c
 // returns: 1 if c is some sort of white space charactere, 0 otherwise
-// checks to see if c is '\t' or ' ' 
+// checks to see if c is '\t' or ' '
 
 char is_space(char c);
 
 char is_redirect_pipe(char* c);
 
 int rp_mode( char* s);
+
+char count_redirect(char ** args);
 
 #endif

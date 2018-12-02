@@ -11,6 +11,7 @@
 #include <sys/wait.h>
 #include <limits.h>
 #include "shell.h"
+#include "text_parse.h"
 
 #define READ 0
 #define WRITE 1
@@ -23,6 +24,7 @@ void print_prompt() {
 
 // running things, commands
 int run(char** args) {
+    char num_red = count_redirect(args);
     //internal commands
     //cd
     if (!strcmp(args[0], "cd")){
@@ -30,18 +32,22 @@ int run(char** args) {
         return 2; //let main know cd is called
     }
     //exit
-    else if (!strcmp(args[0], "exit")) {
+    if (!strcmp(args[0], "exit")) {
         printf("child is done!\n");
         return 3; //let main know exit is called
     }
     //external commands
+    if (num_red) {
+        return redirect(args, num_red);
+    }
     else {
         return execvp(args[0], args);
     }
 }
 
-int redirect(char** args1, char** args2, char mode) {
-  // mode 1 = >, 2 = >>, 3 = <, 4 = <<
+int redirect(char** args, char num) {
+    // num = num of redirects
+    // mode 1 = >, 2 = >>, 3 = <
 	// output of args1 goes into file
 	// copy stdout so we have a backup
 	// set args2 as stdout
@@ -49,31 +55,39 @@ int redirect(char** args1, char** args2, char mode) {
 	// 		child: run first command
 	// 		parent: wait
 	// change back
-
-    int backup;
-    int type;
-    int fd;
-    char file[32];
     char ** cmd;
-    if (mode > 2) {//if < or <<
-        strcpy(file, args1[0]);
-        cmd = args2;
-        type = STDIN_FILENO;
-    }
-    else {//if > or >>
-        strcpy(file, args2[0]);
-        cmd = args1;
-        type = STDOUT_FILENO;
-    }
-    backup = dup(type);
-    if (mode == 1)  //if >
-        fd = open(file, O_CREAT | O_WRONLY, 0777);
-    else if (mode == 2) // if >>
-        fd = open(file, O_CREAT | O_WRONLY | O_APPEND, 0777);
-    else  // if <
-        fd = open(file, O_RDONLY);
+    char * file;
+    char args_offset = 0;
+    char i = 0;
+    int mode = 0;
+    int backup;
+    int backup_type;
+    int fd;
+    char* args1[10]; //args before redirect
+    char* args2[10]; //args after redirect
 
-    dup2(fd, type);
+    while (num) { //there are more redirects
+        num--;
+        while(!is_redirect_pipe(args[args_offset])) {
+            cmd[i++] = args[args_offset++];
+        }
+        args1[i] = NULL;
+        mode = rp_mode(args[args_offset]);
+        args_offset++;
+        file = args[args_offset];
+        i = 0; //start at beginning
+        if (mode == 3) {//if <
+            backup_type = STDIN_FILENO;
+            fd = open(file, O_RDONLY);
+        }
+        else if (mode == 1) {// if >
+            backup_type = STDOUT_FILENO;
+            fd = open(file, O_CREAT | O_WRONLY, 0777);
+        }
+        backup = dup(backup_type);
+        dup2(fd, backup_type);
+        close(fd);
+    }
     int f = fork();
     if (!f) { // if child
         run(cmd);
@@ -81,12 +95,49 @@ int redirect(char** args1, char** args2, char mode) {
     else {
         int status;
         wait(&status);
-        dup2(backup, type);
+        dup2(backup, backup_type);
     }
-
-    close(fd);
     return 0;
 }
+
+
+//     int backup;
+//     int type;
+//     int fd;
+//     char file[32];
+//     char ** cmd;
+//     if (mode > 2) {//if <
+//         strcpy(file, args1[0]);
+//         cmd = args2;
+//         type = STDIN_FILENO;
+//     }
+//     else {//if > or >>
+//         strcpy(file, args2[0]);
+//         cmd = args1;
+//         type = STDOUT_FILENO;
+//     }
+//     backup = dup(type);
+//     if (mode == 1)  //if >
+//         fd = open(file, O_CREAT | O_WRONLY, 0777);
+//     else if (mode == 2) // if >>
+//         fd = open(file, O_CREAT | O_WRONLY | O_APPEND, 0777);
+//     else  // if <
+//         fd = open(file, O_RDONLY);
+//
+//     dup2(fd, type);
+//     int f = fork();
+//     if (!f) { // if child
+//         run(cmd);
+//     }
+//     else {
+//         int status;
+//         wait(&status);
+//         dup2(backup, type);
+//     }
+//
+//     close(fd);
+//     return 0;
+// }
 
 
 int ter_pipe(char** args1, char** args2) {
