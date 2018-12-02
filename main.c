@@ -33,15 +33,15 @@ int main() {
     // printf("expected: 2; actual: %d\n", num_tokens("ahjfdf fsdfdsf", " "));
     // printf("expect: 6; actual: %d\n", num_tokens("ahjfdf f sd f d sf", " "));
 
-        /*//  testing the pipe*/
-    /*char * arg1[2];*/
-    /*arg1[0] = "ls";*/
-    /*arg1[1] = NULL;*/
-    /*char * arg2[3];*/
-    /*arg2[0] = "grep";*/
-    /*arg2[1] = ".c";*/
-    /*arg2[2] = NULL;*/
-    /*ter_pipe(arg1, arg2);*/
+		//  testing the pipe
+	char * arg1[2];
+	arg1[0] = "ls";
+	arg1[1] = NULL;
+	char * arg2[3];
+	arg2[0] = "grep";
+	arg2[1] = ".c";
+	arg2[2] = NULL;
+	ter_pipe(arg1, arg2);
 
 
         /*//  testing the redirect */
@@ -153,7 +153,7 @@ int main() {
                   if (f) { // parent
                       // wait for child process to finish
                       int status;
-                      wait(&status);
+                      waitpid(f, &status, 0);
                       int child_value = WEXITSTATUS(status); //get return value of run
                       //printf("value returned by child: %d\n", child_value);
                       //if error
