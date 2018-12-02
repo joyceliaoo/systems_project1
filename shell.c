@@ -9,13 +9,16 @@
 #include <errno.h>
 #include <signal.h>
 #include <sys/wait.h>
+#include <limits.h>
 #include "shell.h"
 
 #define READ 0
 #define WRITE 1
 
 void print_prompt() {
-    printf("> ");
+    char cwd[PATH_MAX]; //buffer to store cwd
+    getcwd(cwd, sizeof(cwd));
+    printf("%s HJ> ", cwd);
 }
 
 // running things, commands
@@ -23,21 +26,17 @@ int run(char** args) {
     //internal commands
     //cd
     if (!strcmp(args[0], "cd")){
-        //smth w chdir
-        printf("u have chosen to cd. it doesn't work yet\n");
         printf("child is done!\n");
         return 2; //let main know cd is called
     }
     //exit
     else if (!strcmp(args[0], "exit")) {
         printf("child is done!\n");
-        return 1; //let main know exit is called
+        return 3; //let main know exit is called
     }
     //external commands
     else {
-        execvp(args[0], args);
-        printf("child is done!\n");
-        return 0;
+        return execvp(args[0], args);
     }
 }
 

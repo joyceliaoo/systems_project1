@@ -158,9 +158,18 @@ int main() {
                       int status;
                       wait(&status);
                       int child_value = WEXITSTATUS(status); //get return value of run
-                      printf("value returned by child: %d\n", child_value);
-                      //if command is "exit"
+                      //printf("value returned by child: %d\n", child_value);
+                      //if error
                       if (child_value == 1) {
+                          printf("uh oh, something went wrong...please try again\n");
+                      }
+                      //if command is cd
+                      if (child_value == 2) {
+                          printf("changing working dir...\n");
+                          chdir(curr_line[1]);
+                      }
+                      //if command is "exit"
+                      if (child_value == 3) {
                           printf("exiting shell...\n");
                           exit(status);
                       }
