@@ -41,8 +41,8 @@ int run(char** args) {
     }
 }
 
-int redirect(char** args1, char* file, char mode) {
-  // mode 0 = WRONLY, 1 = APPEND
+int redirect(char** args1, char** args2, char mode) {
+  // mode 1 = >, 2 = >>, 3 = <, 4 = <<
 	// output of args1 goes into file
 	// copy stdout so we have a backup
 	// set args2 as stdout
@@ -50,25 +50,44 @@ int redirect(char** args1, char* file, char mode) {
 	// 		child: run first command
 	// 		parent: wait
 	// change back
-    int redirect_type; //distinguish between < and <<
-    if (mode) redirect_type = O_APPEND;
-    else redirect_type = O_WRONLY;
 
-    int backup = dup(STDOUT_FILENO);
-    int fd = open(file, redirect_type);
-    dup2(fd, STDOUT_FILENO);
+    int backup;
+    int type;
+    int fd;
+    char file[32];
+    char ** cmd;
+    if (mode > 2) {//if < or <<
+        strcpy(file, args1[0]);
+        cmd = args2;
+        type = STDIN_FILENO;
+    }
+    else {//if > or >>
+        strcpy(file, args2[0]);
+        cmd = args1;
+        type = STDOUT_FILENO;
+    }
+    backup = dup(type);
+    if (mode == 1)  //if >
+        fd = open(file, O_CREAT | O_WRONLY, 0777);
+    else if (mode == 2) // if >>
+        fd = open(file, O_CREAT | O_WRONLY | O_APPEND, 0777);
+    else  // if < or <<
+        fd = open(file, O_RDONLY);
+
+    dup2(fd, type);
     int f = fork();
     if (!f) { // if child
-        run(args1);
+        run(cmd);
     }
     else {
         int status;
         wait(&status);
-        dup2(backup, STDOUT_FILENO);
+        dup2(backup, type);
     }
+
+    close(fd);
     return 0;
 }
-
 
 
 int ter_pipe(char** args1, char** args2) {

@@ -17,7 +17,7 @@ void print_prompt();
 
 int run(char** args);
 
-int redirect(char** args1, char* file, char mode);
+int redirect(char** args1, char** args2, char mode);
 
 int ter_pipe(char** args1, char** args2);
 

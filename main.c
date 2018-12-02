@@ -82,120 +82,108 @@ int main() {
           int i =  num_lines; // placeholder for num of lines
           char** curr_line;
 
-
-
           // this while is for multiple arguments
           while (i) {
-        
+
+              printf("-----parsing for [ ] -----\n");
+              //count num of args in each commands
+              int num_args = num_tokens(  lines[num_lines-i], " ");
+              //take each command and parse into array of args
+              curr_line = parse_line(lines[num_lines-i], " ", num_args); // parse by " "
+              //  print_arr(curr_line);
+              trim(curr_line);
+              /*print_arr(curr_line);*/
+              printf("-----\n\n");
+
+              // curline is the current set of arguments
+
+              if (curr_line[0]) { // if there is an argument...
+
+                  // copy things into a new string until you hit a null or | or redirect
+                  char* segment1[10];
+                  int mode = 0;
+                  int j = 0;
+
+                  while( curr_line[j] && !is_redirect_pipe(curr_line[j])) {
+                      /*printf("%s (currline)\n", curr_line[j]);*/
+                      segment1[j] = curr_line[j];
+                      /*printf("%s (segment)\n", segment1[j]);*/
+                      j ++;
+                      /*printf("mad it to the end\n");*/
+                  }
+                  segment1[j] = NULL;
+
+                  printf("segment1:\n");
+                  print_arr(segment1);
+
+                  char* segment2[10];
+
+                  int k = 0;
+                  if (curr_line[j]) { // if there is more stuff
+                      if (is_redirect_pipe(curr_line[j])) {
+                          mode = rp_mode( curr_line[j] ); // mode
+                          printf("redirect was found, mode: [%d]\n", mode);
+                          j++;
+                      }
+
+                      while( curr_line[j]) {
+                          printf("segment2 added\n");
+                          segment2[k] = curr_line[j];
+                          k ++;
+                          j++;
+                      }
+                      segment2[j] = NULL;
+                  }
+
+                  /*printf("segment2 copied\n");*/
+
+                  printf("segment2:\n");
+                  print_arr(segment2);
+
+                  printf( "CODE UP UNTIL HERE WORKS!!\n");
+
+                  //                          PARENT AND CHILD WILL BE HERE
+                  int f = fork();
 
 
-          printf("-----parsing for [ ] -----\n");
-          //count num of args in each commands
-          int num_args = num_tokens(  lines[num_lines-i], " ");
-          //take each command and parse into array of args
-          curr_line = parse_line(lines[num_lines-i], " ", num_args); // parse by " "
-          //  print_arr(curr_line);
-          trim(curr_line);
-          /*print_arr(curr_line);*/
-          printf("-----\n\n");
+                  //      if theres a | or redirect:
+                  //          copy thinggs until you hit a null
+                  //          plug it in
 
 
-          // curline is the current set of arguments
-
-          if (curr_line[0]) { // if there is an argument...
-
-            // copy things into a new string until you hit a null or | or redirect
-
-            char* segment1[10];
-            int mode = 0;
-            int j = 0;
-
-
-            while( curr_line[j] && !is_redirect_pipe(curr_line[j])) {
-                /*printf("%s (currline)\n", curr_line[j]);*/
-                segment1[j] = curr_line[j];
-                /*printf("%s (segment)\n", segment1[j]);*/
-                j ++;
-                /*printf("mad it to the end\n");*/
-            }
-            segment1[j] = NULL; 
-
-            printf("segment1:\n");
-            print_arr(segment1);
-
-
-            char* segment2[10];
-
-
-
-            int k = 0;
-            if (curr_line[j]) { // if there is more stuff
-                if (is_redirect_pipe(curr_line[j])) {
-                    mode = rp_mode( curr_line[j] ); // mode
-                    printf("redirect was found, mode: [%d]\n", mode);
-                    j++;
-                }
-                
-                while( curr_line[j]) {
-                    printf("segment2 added\n");
-                    segment2[k] = curr_line[j];
-                    k ++;
-                    j++;
-                }
-                segment2[j] = NULL;
-            }
-
-            /*printf("segment2 copied\n");*/
-
-            printf("segment2:\n");
-            print_arr(segment2);
-
-
-            printf( "CODE UP UNTIL HERE WORKS!!\n");
-
-
-            //                          PARENT AND CHILD WILL BE HERE
-            int f = fork();
-
-
-            //      if theres a | or redirect:
-            //          copy thinggs until you hit a null
-            //          plug it in
-
-
-            // run the thing given
-            // --------------------------------
-            if (f) { // parent
-                    // wait for child process to finish
-                    int status;
-                    wait(&status);
-                    int child_value = WEXITSTATUS(status); //get return value of run
-                    printf("value returned by child: %d\n", child_value);
-                    //if command is "exit"
-                    if (child_value == 1) {
-                        printf("exiting shell...\n");
-                        exit(status);
-                    }
-            } else { // child
-                printf("mode: %d\n", mode);
-                if (mode) { //there is a pipe or redirect 
-                    if (mode == 3) { 
-                        ter_pipe(segment1, segment2);
-                    } else {
-                        redirect(segment1, segment2[0], mode);
-                    }
-                } else {
-                    printf("command to be run next: [%s]\n", curr_line[0]);
-                    print_arr(curr_line);
-                    printf("child executed and there were not pipes or redirects\n");
-                    return run(curr_line); //to end child process
-                }
-            }
-            // --------------------------------
-            } //if currline
+                  // run the thing given
+                  // --------------------------------
+                  if (f) { // parent
+                      // wait for child process to finish
+                      int status;
+                      wait(&status);
+                      int child_value = WEXITSTATUS(status); //get return value of run
+                      printf("value returned by child: %d\n", child_value);
+                      //if command is "exit"
+                      if (child_value == 1) {
+                          printf("exiting shell...\n");
+                          exit(status);
+                      }
+                  } else { // child
+                      printf("mode: %d\n", mode);
+                      if (mode) { //there is a pipe or redirect
+                          if (mode == 5) {
+                              return ter_pipe(segment1, segment2);
+                          } else {
+                              return redirect(segment1, segment2, mode);
+                          }
+                      } else {
+                          printf("command to be run next: [%s]\n", curr_line[0]);
+                          print_arr(curr_line);
+                          printf("child executed and there were not pipes or redirects\n");
+                          return run(curr_line); //to end child process
+                      }
+                  }
+                  // --------------------------------
+              } //if currline
               i--;
-        } // end while i
-    } // end while 1
-        // ---------------------------------------------------------
-    return 0;
-}
+          } // end while i
+      } // end while 1
+      // ---------------------------------------------------------
+      return 0;
+  }

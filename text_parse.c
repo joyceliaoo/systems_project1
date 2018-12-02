@@ -93,7 +93,7 @@ char is_space(char c) {
 }
 
 char is_redirect_pipe(char* c) {
-    if (!strcmp(c, ">") || !strcmp(c, ">>") || !strcmp(c, "<")) 
+    if (!strcmp(c, ">") || !strcmp(c, ">>") || !strcmp(c, "<") || !strcmp(c, "<<"))
         return 1;
     if (!strcmp(c, "|"))
         return 2;
@@ -102,12 +102,14 @@ char is_redirect_pipe(char* c) {
 
 int rp_mode( char* s) {
     if (!strcmp(s, "|"))
-        return 3;
+        return 5;
     if (!strcmp(s, ">"))
         return 1;
     if (!strcmp(s, ">>"))
         return 2;
+    if (!strcmp(s, "<"))
+        return 3;
+	if (!strcmp(s, "<<"))
+		return 4;
     return 0; //  not a redirect
 }
-
-    
