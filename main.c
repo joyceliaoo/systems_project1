@@ -96,6 +96,8 @@ int main() {
               /*print_arr(curr_line);*/
               /*printf("-----\n\n");*/
 
+              curr_line = parse_rp(curr_line); 
+
               // curline is the current set of arguments
 
               if (curr_line[0]) { // if there is an argument...

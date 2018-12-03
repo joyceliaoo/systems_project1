@@ -18,6 +18,9 @@ unsigned int num_tokens(char* line, char* delim);
 
 char** parse_line(char* line, char* delim, int num_tokens);
 
+char** parse_rp(char** args);
+
+
 // inputs: char** args
 // returns: char** that has everything in args, but with the whitespace trimmed off on either end
 // trims off whitespace: \t, spaces, etc and other random stuff

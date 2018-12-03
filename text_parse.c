@@ -79,12 +79,13 @@ void trim(char** args) {
         }
 				if (trim_index) {
 				  trimmed_str[trim_index] = 0;
-          printf("%s: trimmed ver\n", trimmed_str);
+          /*printf("%s: trimmed ver\n", trimmed_str);*/
 				  strcpy(args[arg_count++], trimmed_str);
 				}
         string_offset++;
 
     }
+        printf("\n");
 		args[arg_count] = NULL;
 }
 

@@ -34,12 +34,10 @@ int run(char** args) {
     //internal commands
     //cd
     if (!strcmp(args[0], "cd")){
-        printf("child is done!\n");
         return 2; //let main know cd is called
     }
     //exit
     if (!strcmp(args[0], "exit")) {
-        printf("child is done!\n");
         return 3; //let main know exit is called
     }
     //external commands
