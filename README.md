@@ -5,6 +5,7 @@
 1. can handle multple redirects in one line
 1. can handle: > >> < and |
 1. can handle directory changing
+1. can handle weird spacing and tabs
 
 
 ## known bugs:
@@ -12,6 +13,7 @@
 1. cannot handle multiple pipes or pipes mixed with redirects
 1. unpredictable behavior when too many arguments are given/ arguments are too long in length
 1. prints extra command prompts when run with test_commands
+1. (maybe not a bug) doesn't treat a string like "ls\t\t-l" as "ls -l"
 
 ## functions and descriptions:
 
