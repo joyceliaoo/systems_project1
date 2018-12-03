@@ -90,9 +90,12 @@ int redirect(char** args, char num) {
             fd = open(file, O_RDONLY);
             if (fd == -1) return 1; //if not valid file name
         }
-        else if (mode == 1) {// if >
+        else if (mode < 3) {// if > or >>
             backup_type[backup_count] = STDOUT_FILENO;
-            fd = open(file, O_CREAT | O_WRONLY, 0777);
+            if (mode == 1) // if <
+                fd = open(file, O_CREAT | O_WRONLY, 0777);
+            else // if <<
+                fd = open(file, O_CREAT | O_WRONLY | O_APPEND, 0777);
         }
         backup[backup_count] = dup(backup_type[backup_count]);
         dup2(fd, backup_type[backup_count]);
