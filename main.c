@@ -63,16 +63,55 @@ int main() {
     while (1) {
           // ask for command line input
           print_prompt();
-          char l[100]; // buffer for what the user enters
-          fgets(l, 100, stdin); //reads user input
+          char l[200]; // buffer for what the user enters
+          fgets(l, 200, stdin); //reads user input
           l[strlen(l)-1] = '\0'; //remove trailing \n character
+
+          // alright so we gotta put in the spaces bcuser is dumb 
+          char l2[250];
+
+          int a = 0;
+          int b = 0;
+          while (l[a]) {
+              if (l[a] == '>') {
+                    l2[b] = ' ';
+                    b ++;
+                    l2[b] = l[a];
+                    if (l[a + 1] == '>' ) {
+                        b ++;
+                        l2[b] = l[a+1] ;
+                        a ++;
+                    } else {
+                        b ++;
+                        l2[b] = ' ';
+                    }
+                        
+                    b ++;
+                    a ++; 
+              } else if( l[a]  == '|' | l[a] == '<' ) {
+                    l2[b] = ' ';
+                    b ++;
+                    l2[b] = l[a];
+                    b ++;
+                    a ++; 
+                        
+              } else { 
+
+                    l2[b] = l[a];   
+                    b ++;
+                    a++;
+              }
+          }
+          l2[b] = 0;
+
+          printf("new string: %s", l2);
 
           /*// testing*/
           /*printf("you entered: %s\n", l);*/
 
           // parse the input
-          int num_lines = num_tokens(l, ";");
-          char** lines = parse_line(l, ";", num_lines); // split it into the different commands
+          int num_lines = num_tokens(l2, ";");
+          char** lines = parse_line(l2, ";", num_lines); // split it into the different commands
 
           /*printf("-----parsing for ; -----\n");*/
           /*printf("commands received: \n");*/
@@ -97,8 +136,6 @@ int main() {
               /*printf("-----\n\n");*/
 
 
-              char ** free_this = curr_line;
-              curr_line = parse_rp(curr_line); 
 
               // curline is the current set of arguments
 
@@ -191,7 +228,6 @@ int main() {
                   // --------------------------------
               } //if currline
               i--;
-              free(free_this);
           } // end while i
           free(curr_line);
       } // end while 1
