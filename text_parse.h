@@ -12,12 +12,15 @@
 unsigned int num_tokens(char* line, char* delim);
 
 
-// inputs: char* line, char* delim
-// returns: array of lineings where each entry is a token (from @str) seperated by @delim
+// inputs: char* line, char* delim, num_tokens
+// returns: array of strings where each entry is a token (from @str) seperated by @delim
 // seperates @line into tokens by @delim, and returns a pointer to an array contining them
 
 char** parse_line(char* line, char* delim, int num_tokens);
 
+// inputs: char** args
+// returns: char** where if there were any redirect or pipe characters in the array, they would be seperated out
+// eg: ["ls>hm"] would become ["ls",">","hm"]
 char** parse_rp(char** args);
 
 
