@@ -145,29 +145,72 @@ char count_pipe(char ** args) {
 }
 
 char ** parse_rd_pipe(char ** args) {
-	char ** temp;
-	char arg_count = 0;
+	char ** temp = malloc(1200);
+	int arg_count = 0; // temp counter
 	int i = 0;
 	int num_char;
-	char* first_char;
-	char* last_char;
+	/*char* first_char;*/
+	/*char* last_char;*/
 	while (args[i]) {
 		num_char = strlen(args[i]);
 		//printf("num: %d\n", num_char);
-		if (num_char > 2) {//skip single char args
-			first_char = &args[i][0];
-			last_char = &args[i][num_char - 2];
-			if (is_redirect_pipe(first_char)) {
-				temp[arg_count++] = first_char;
-				temp[arg_count++] = &args[i][1];
-			}
-			else if (is_redirect_pipe(last_char)) {
-				strncpy(temp[arg_count++], args[i], num_char - 2);
-				strcpy(temp[arg_count++], last_char);
-			}
-			else {
-				temp[arg_count++] = args[i];
-			}
+		if (num_char > 1) {//skip single char args
+
+            int j = 0;
+            int rp_count = 0;
+            // count how many pipes..
+            while (args[i][j]) {
+                if (args[i][j] == '>') {
+                    rp_count ++;
+                } else if (args[i][j] == '|' | args[i][j] == '<') {
+                    rp_count ++;
+                }
+            }
+
+            j = 0;
+            if (rp_count) {
+                char** split_args = malloc(1200); 
+                // example:
+                // 
+                // run thru args[i][j] (split_args[l][m])
+                    // if there is no pipe or redirect character
+                    //      copy it into split args
+                    //      increment by m by 1
+                    // if its >
+                    //      check the next one, to make sure if its >>
+                    //      increment l by one
+                    //      copy the > or >>
+                    //      increment l by one again
+                    // if its < | 
+                    //      increment l by one
+                    //      copy the > or >>
+                    //      increment l by one again
+                    // 
+                    //      
+               
+               // copy the arguments int splitargs into temp
+               //   strcopy
+               // free splitargs afer u copy over into temp
+
+            } else { // this string has no | 
+                temp[arg_count] = args[i];
+                arg_count ++;
+            }
+
+
+			/*first_char = &args[i][0];*/
+			/*last_char = &args[i][num_char - 2];*/
+			/*if (is_redirect_pipe(first_char)) {*/
+				/*temp[arg_count++] = first_char;*/
+				/*temp[arg_count++] = &args[i][1];*/
+			/*}*/
+			/*else if (is_redirect_pipe(last_char)) {*/
+				/*strncpy(temp[arg_count++], args[i], num_char - 2);*/
+				/*strcpy(temp[arg_count++], last_char);*/
+			/*}*/
+			/*else {*/
+				/*temp[arg_count++] = args[i];*/
+			/*}*/
 		}
 		else {
 			temp[arg_count] = args[i];

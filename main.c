@@ -96,6 +96,8 @@ int main() {
               /*print_arr(curr_line);*/
               /*printf("-----\n\n");*/
 
+
+              char ** free_this = curr_line;
               curr_line = parse_rp(curr_line); 
 
               // curline is the current set of arguments
@@ -160,7 +162,7 @@ int main() {
                       //printf("value returned by child: %d\n", child_value);
                       //if error
                       if (child_value == 1) {
-                          printf("command not found\n");
+                          printf("error..\n");
                       }
                       //if command is cd
                       if (child_value == 2) {
@@ -189,6 +191,7 @@ int main() {
                   // --------------------------------
               } //if currline
               i--;
+              free(free_this);
           } // end while i
           free(curr_line);
       } // end while 1
