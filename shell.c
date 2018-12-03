@@ -26,7 +26,7 @@
 void print_prompt() {
     char cwd[PATH_MAX]; //buffer to store cwd
     getcwd(cwd, sizeof(cwd));
-    printf("%s %s %s[HJ]%s> ", KCYN, cwd, KMAG, KNRM);
+    printf("%s%s %s[HJ]%s> ", KCYN, cwd, KMAG, KNRM);
 }
 
 // running things, commands
