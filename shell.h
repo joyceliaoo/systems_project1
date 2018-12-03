@@ -11,14 +11,19 @@ void print_prompt();
 //                      RUNNING THE THING
 
 // inputs: char** args
-// returns: 1 if command is exit, 2 if command is cd
-// executes given args otherwise
-// runs the commands given
+// returns: 3 if command is exit, 2 if command is cd, execvp otherwise
+// executes given args, unless exit or cd, which is handled by the parent
 
 int run(char** args);
 
+// inputs: char ** args, char num (number of redirects there are) 
+// returns: 0 if run with no errors
+// runs strings of redirects
 int redirect(char** args, char num);
 
+// inputs: char ** args, char num 
+// returns: 0 if run with no errors
+// runs two pipes
 int ter_pipe(char** args1, char num);
 
 
