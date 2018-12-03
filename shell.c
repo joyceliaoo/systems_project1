@@ -41,6 +41,8 @@ int run(char** args) {
         return 3; //let main know exit is called
     }
     //external commands
+    //char **parsed = parse_rd_pipe(args);
+    //print_arr(parsed);
     char num_red = count_redirect(args);
     char num_pipes = count_pipe(args);
     if (num_red) {
@@ -164,8 +166,8 @@ int ter_pipe(char** args, char num) {
        j ++;
     }
     args1[j] = NULL;
-  
-  
+
+
     int k = 0;
     if (args[j]) { // if there is more stuff
        if (is_redirect_pipe(args[j])) {
@@ -190,15 +192,15 @@ int ter_pipe(char** args, char num) {
         dup2(fds[WRITE], STDOUT_FILENO);
         int g = fork();
 
-        
+
 		// execute args 1
         if (!g) {
             run(args1);
-        } 
+        }
 		// close write
         close(fds[WRITE]);
 
-        // return the backup 
+        // return the backup
         dup2(backup, STDOUT_FILENO);
 
         exit(0);
@@ -218,11 +220,11 @@ int ter_pipe(char** args, char num) {
         if (!g) {
             /*printf("about to run\n");*/
             run(args2);
-        } 
+        }
 
         int status;
         waitpid(g, &status, 0);
-        
+
 		// close read
         close(fds[READ]);
         // revert

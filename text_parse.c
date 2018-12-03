@@ -144,3 +144,38 @@ char count_pipe(char ** args) {
 	return num;
 }
 
+char ** parse_rd_pipe(char ** args) {
+	char ** temp;
+	char arg_count = 0;
+	int i = 0;
+	int num_char;
+	char* first_char;
+	char* last_char;
+	while (args[i]) {
+		num_char = strlen(args[i]);
+		//printf("num: %d\n", num_char);
+		if (num_char > 2) {//skip single char args
+			first_char = &args[i][0];
+			last_char = &args[i][num_char - 2];
+			if (is_redirect_pipe(first_char)) {
+				temp[arg_count++] = first_char;
+				temp[arg_count++] = &args[i][1];
+			}
+			else if (is_redirect_pipe(last_char)) {
+				strncpy(temp[arg_count++], args[i], num_char - 2);
+				strcpy(temp[arg_count++], last_char);
+			}
+			else {
+				temp[arg_count++] = args[i];
+			}
+		}
+		else {
+			temp[arg_count] = args[i];
+			arg_count++;
+			//printf("copied!\n");
+		}
+		i++;
+	}
+	temp[arg_count] = NULL;
+	return temp;
+}

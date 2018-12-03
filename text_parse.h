@@ -34,24 +34,26 @@ void trim(char** args);
 char is_space(char c);
 
 
-// inputs: 
-// returns: 
-// 
+// inputs:
+// returns:
+//
 char is_redirect_pipe(char* c);
 
-// inputs: 
-// returns: 
-// 
+// inputs:
+// returns:
+//
 int rp_mode( char* s);
 
-// inputs: 
-// returns: 
-// 
+// inputs:
+// returns:
+//
 char count_redirect(char ** args);
 
-// inputs: 
-// returns: 
-// 
+// inputs:
+// returns:
+//
 char count_pipe(char ** args);
+
+char ** parse_rd_pipe(char ** args);
 
 #endif
