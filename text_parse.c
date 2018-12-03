@@ -42,6 +42,11 @@ char** parse_line(char* line, char* delim, int num_tokens) {
 	return args;
 }
 
+char ** parse_rp( char** args) {
+
+    return args;
+}
+
 void trim(char** args) {
     int string_offset = 0;
 		int arg_count = 0;

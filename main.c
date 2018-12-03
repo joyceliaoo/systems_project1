@@ -190,6 +190,7 @@ int main() {
               } //if currline
               i--;
           } // end while i
+          free(curr_line);
       } // end while 1
       // ---------------------------------------------------------
       return 0;
