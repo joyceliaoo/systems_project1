@@ -1,17 +1,15 @@
 # JOYCE AND HANNA'S SHELL!!
 
 ## currently working:
-1. can parse text!
-2. can run multi-line commands
-3. can exit
+1. can handle multi-line commands
+1. can handle multple redirects in one line
+1. can handle: > >> < and |
+1. can handle directory changing
 
 
 ## known bugs:
 
-1. a command like echo "hmm help" mght not work 
-2. cannot cd
-3. cannot redirect
-4. cannot pipe
+1. cannot handle multiple pipes or pipes mixed with redirects
 
 ## functions and descriptions:
 
