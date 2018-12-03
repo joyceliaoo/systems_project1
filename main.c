@@ -33,15 +33,15 @@ int main() {
     // printf("expected: 2; actual: %d\n", num_tokens("ahjfdf fsdfdsf", " "));
     // printf("expect: 6; actual: %d\n", num_tokens("ahjfdf f sd f d sf", " "));
 
-		//  testing the pipe
-	char * arg1[2];
-	arg1[0] = "ls";
-	arg1[1] = NULL;
-	char * arg2[3];
-	arg2[0] = "grep";
-	arg2[1] = ".c";
-	arg2[2] = NULL;
-	ter_pipe(arg1, arg2);
+		/*//  testing the pipe*/
+	/*char * arg1[2];*/
+	/*arg1[0] = "ls";*/
+	/*arg1[1] = NULL;*/
+	/*char * arg2[3];*/
+	/*arg2[0] = "grep";*/
+	/*arg2[1] = ".c";*/
+	/*arg2[2] = NULL;*/
+	/*ter_pipe(arg1, arg2);*/
 
 
         /*//  testing the redirect */
@@ -74,11 +74,11 @@ int main() {
           int num_lines = num_tokens(l, ";");
           char** lines = parse_line(l, ";", num_lines); // split it into the different commands
 
-          printf("-----parsing for ; -----\n");
-          printf("commands received: \n");
-          print_arr(lines);
+          /*printf("-----parsing for ; -----\n");*/
+          /*printf("commands received: \n");*/
+          /*print_arr(lines);*/
           //trim(lines);
-          printf("-----\n\n");
+          /*printf("-----\n\n");*/
 
           int i =  num_lines; // placeholder for num of lines
           char** curr_line;
@@ -86,7 +86,7 @@ int main() {
           // this while is for multiple arguments
           while (i) {
 
-              printf("-----parsing for [ ] -----\n");
+              /*printf("-----parsing for [ ] -----\n");*/
               //count num of args in each commands
               int num_args = num_tokens(  lines[num_lines-i], " ");
               //take each command and parse into array of args
@@ -94,7 +94,7 @@ int main() {
               //  print_arr(curr_line);
               trim(curr_line);
               /*print_arr(curr_line);*/
-              printf("-----\n\n");
+              /*printf("-----\n\n");*/
 
               // curline is the current set of arguments
 
@@ -179,8 +179,8 @@ int main() {
                       //         return redirect(segment1, segment2, mode);
                       //     }
                       // } else {
-                          printf("command to be run next: [%s]\n", curr_line[0]);
-                          print_arr(curr_line);
+                          /*printf("command to be run next: [%s]\n", curr_line[0]);*/
+                          /*print_arr(curr_line);*/
                           return run(curr_line); //to end child process
                       //}
                   }

@@ -19,7 +19,7 @@ int run(char** args);
 
 int redirect(char** args, char num);
 
-int ter_pipe(char** args1, char** args2);
+int ter_pipe(char** args1, char num);
 
 
 //                      ACTUAL COMMANDS

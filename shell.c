@@ -44,10 +44,13 @@ int run(char** args) {
     }
     //external commands
     char num_red = count_redirect(args);
+    char num_pipes = count_pipe(args);
     if (num_red) {
         return redirect(args, num_red);
+    } else if (num_pipes) {
+        return ter_pipe(args, num_pipes);
     } else {
-        printf("no pipes, redirects found\n");
+        /*printf("no pipes, redirects found\n");*/
         return execvp(args[0], args);
     }
 }
@@ -152,7 +155,33 @@ int redirect(char** args, char num) {
 // }
 
 
-int ter_pipe(char** args1, char** args2) {
+int ter_pipe(char** args, char num) {
+
+    char* args1[20];
+    char* args2[20];
+
+    int j = 0;
+    while( args[j] && !is_redirect_pipe(args[j])) {
+       args1[j] = args[j];
+       j ++;
+    }
+    args1[j] = NULL;
+  
+  
+    int k = 0;
+    if (args[j]) { // if there is more stuff
+       if (is_redirect_pipe(args[j])) {
+           j++;
+       }
+       while( args[j]) {
+           args2[k] = args[j];
+           k ++;
+           j++;
+       }
+       args2[j] = NULL;
+    }
+
+
 	int fds[2];
 	pipe(fds);
 	int f = fork();
