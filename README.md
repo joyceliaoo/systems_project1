@@ -17,8 +17,8 @@
 3. prints extra command prompts when running `./shell < test_commands`
 4. (maybe not a bug) doesn't treat a string like "ls\t\t-l" as "ls -l"
 5. if you type in a command not found in bash, it will not tell you that it is invalid, and just print out the next command prompt (as opposed to giving a command not found error msg)
-6. cd with no argument doesnt work 
-7. if you hit tab by accident and then backspace to return to where you where before the tab and contine typing a command, the command will have unpredicable behavior.
+6. cd with no argument doesn't work 
+7. if you hit tab by accident and then backspace to return to where you were before the tab and continue typing a command, the command will have unpredictable behavior.
 
 ## functions and descriptions:
 ### text_parse.c
