@@ -2,12 +2,10 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <fcntl.h>
-#include <dirent.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <string.h>
 #include <errno.h>
-#include <signal.h>
 #include <sys/wait.h>
 #include <limits.h>
 #include "shell.h"
@@ -19,9 +17,6 @@
 #define KCYN  "\x1B[36m"
 #define KMAG  "\x1B[35m"
 #define KNRM  "\x1B[0m"
-
-
-
 
 void print_prompt() {
     char cwd[PATH_MAX]; //buffer to store cwd
@@ -41,8 +36,6 @@ int run(char** args) {
         return 3; //let main know exit is called
     }
     //external commands
-    //char **parsed = parse_rd_pipe(args);
-    //print_arr(parsed);
     char num_red = count_redirect(args);
     char num_pipes = count_pipe(args);
     if (num_red) {
@@ -56,15 +49,6 @@ int run(char** args) {
 }
 
 int redirect(char** args, char num) {
-    // num = num of redirects
-    // mode 1 = >, 2 = >>, 3 = <
-	// output of args1 goes into file
-	// copy stdout so we have a backup
-	// set args2 as stdout
-	// fore
-	// 		child: run first command
-	// 		parent: wait
-	// change back
     char * cmd[10];
     char * file;
     int args_offset = 0;
@@ -107,7 +91,7 @@ int redirect(char** args, char num) {
     if (!f) { // if child
         run(cmd);
     }
-    else {
+    else { //change everything back
         int status;
         wait(&status);
         while(backup_count+1){
@@ -117,46 +101,6 @@ int redirect(char** args, char num) {
     }
     return 0;
 }
-
-
-//     int backup;
-//     int type;
-//     int fd;
-//     char file[32];
-//     char ** cmd;
-//     if (mode > 2) {//if <
-//         strcpy(file, args1[0]);
-//         cmd = args2;
-//         type = STDIN_FILENO;
-//     }
-//     else {//if > or >>
-//         strcpy(file, args2[0]);
-//         cmd = args1;
-//         type = STDOUT_FILENO;
-//     }
-//     backup = dup(type);
-//     if (mode == 1)  //if >
-//         fd = open(file, O_CREAT | O_WRONLY, 0777);
-//     else if (mode == 2) // if >>
-//         fd = open(file, O_CREAT | O_WRONLY | O_APPEND, 0777);
-//     else  // if <
-//         fd = open(file, O_RDONLY);
-//
-//     dup2(fd, type);
-//     int f = fork();
-//     if (!f) { // if child
-//         run(cmd);
-//     }
-//     else {
-//         int status;
-//         wait(&status);
-//         dup2(backup, type);
-//     }
-//
-//     close(fd);
-//     return 0;
-// }
-
 
 int ter_pipe(char** args, char num) {
 
@@ -169,7 +113,6 @@ int ter_pipe(char** args, char num) {
        j ++;
     }
     args1[j] = NULL;
-
 
     int k = 0;
     if (args[j]) { // if there is more stuff
@@ -184,7 +127,6 @@ int ter_pipe(char** args, char num) {
        args2[j] = NULL;
     }
 
-
 	int fds[2];
 	pipe(fds);
 	int f = fork();
@@ -194,7 +136,6 @@ int ter_pipe(char** args, char num) {
         int backup = dup(STDOUT_FILENO);
         dup2(fds[WRITE], STDOUT_FILENO);
         int g = fork();
-
 
 		// execute args 1
         if (!g) {
@@ -216,8 +157,6 @@ int ter_pipe(char** args, char num) {
         dup2(fds[READ], STDIN_FILENO);
 
         int g = fork();
-
-
 
 		// execute args 2
         if (!g) {

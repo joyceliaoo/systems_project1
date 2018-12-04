@@ -3,7 +3,6 @@
 
 
 //                      DEALING W TEXT
-//
 
 // inputs: char* line, char* delim
 // returns: (unsigned int) number of tokens separated by @delim
@@ -19,12 +18,6 @@ unsigned int num_tokens(char* line, char* delim);
 char** parse_line(char* line, char* delim, int num_tokens);
 
 // inputs: char** args
-// returns: char** where if there were any redirect or pipe characters in the array, they would be seperated out
-// eg: ["ls>hm"] would become ["ls",">","hm"]
-char** parse_rp(char** args);
-
-
-// inputs: char** args
 // returns: char** that has everything in args, but with the whitespace trimmed off on either end
 // trims off whitespace: \t, spaces, etc and other random stuff
 
@@ -37,26 +30,24 @@ void trim(char** args);
 char is_space(char c);
 
 
-// inputs:
-// returns:
-//
+// inputs: char *c
+// returns: 1 if c is a redirect, 2 if c is a pipe, 0 otherwise
+// checks if the given string is a redirect or pipe
 char is_redirect_pipe(char* c);
 
-// inputs:
-// returns:
-//
+// inputs: char *s
+// returns: 1 if s is >, 2 if s is >>, 3 if s is <, 4 if s is |, 0 otherwise
+// identifies the presence and type of a redirect or pipe
 int rp_mode( char* s);
 
-// inputs:
-// returns:
-//
+// inputs: char **args
+// returns: sum of how many times is_redirect_pipe() returns 1 when each element in given array is passed as an argument
+// counts total number of any type of redirection in the given array of args
 char count_redirect(char ** args);
 
-// inputs:
-// returns:
-//
+// inputs: char **args
+// returns: sum of how many times is_redirect_pipe() returns 2 when each element in given array is passed as an argument
+//counts total number of pipes in the given array of args
 char count_pipe(char ** args);
-
-char ** parse_rd_pipe(char ** args);
 
 #endif

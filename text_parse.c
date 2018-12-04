@@ -12,8 +12,7 @@
 #include "text_parse.h"
 
 
-//  dealing w parsing text
-
+//  counts num of args
 unsigned int num_tokens(char* line, char* delim) {
 	unsigned int ans = 1;
 	while (*line) { // while were still in the string
@@ -26,8 +25,7 @@ unsigned int num_tokens(char* line, char* delim) {
 	return ans;
 }
 
-
-
+//parse into an array of args
 char** parse_line(char* line, char* delim, int num_tokens) {
 	char** args = malloc( (num_tokens + 1) * sizeof(char*)); // make some space for the array
 	char *s = strsep(&line, delim);
@@ -42,65 +40,13 @@ char** parse_line(char* line, char* delim, int num_tokens) {
 	return args;
 }
 
-char ** parse_rp( char** args) {
-
-    return args;
-}
-
-// void trim(char** args) {
-//     int string_offset = 0;
-// 		int arg_count = 0;
-//     while (args[string_offset]) { // now considering just strings
-// 		int num_char = strlen(args[string_offset]);
-//         char trimmed_str[num_char * sizeof(char)];
-//         int char_offset = 0;
-//         int trim_index = 0;
-//         //char found_beginning = 0;
-//         //char prev_char = 0;
-//         //  get rid of around and inside
-//         while(args[string_offset][char_offset]) {
-//             /*if( is_space(args[string_offset][char_offset]) && !found_beginning) {*/
-//                 /*trimmed_str[trim_index] = args[string_offset][char_offset];*/
-//                 /*trim_index++;*/
-//                 /*found_beginning = 1;*/
-//             /*} else*/
-//             if( !is_space(args[string_offset][char_offset]) ) {
-//                 // get rid of multiple spaces in a row
-//             //     if (!is_space(prev_char)) {
-//             //         //trimmed_str[trim_index] = ' ';
-//             //         trim_index ++;
-//             //         prev_char = args[string_offset][char_offset];
-//             //     }
-//             // } else {
-//             //     //found_beginning = 1;
-//             //     trimmed_str[trim_index] = args[string_offset][char_offset];
-//             //     trim_index ++;
-//             //     prev_char = args[string_offset][char_offset];
-//             // }
-// 							trimmed_str[trim_index] = args[string_offset][char_offset];
-// 							trim_index++;
-// 						}
-//             char_offset ++;
-//         }
-// 				if (trim_index) {
-// 				  trimmed_str[trim_index] = 0;
-//           /*printf("%s: trimmed ver\n", trimmed_str);*/
-// 				  strcpy(args[arg_count++], trimmed_str);
-// 				}
-//         string_offset++;
-//
-//     }
-//         printf("\n");
-// 		args[arg_count] = NULL;
-// }
-
 void trim(char** args) {
 	int string_offset = 0;
 	int arg_count = 0;
 	while(args[string_offset]) {
 		if (!is_space(args[string_offset][0])) { //only save the args that aren't spaces
 			//printf("arg %d is not a space\n", string_offset);
-			args[arg_count] = args[string_offset];
+			args[arg_count] = args[string_offset]; //keep if not a space
 			arg_count++;
 		}
 		string_offset++;
@@ -151,89 +97,9 @@ char count_pipe(char ** args) {
 	while(args[i]) {
 		if (is_redirect_pipe(args[i]) == 2){
 			num++;
-			//printf("redirect found!\n");
+			//printf("pipe found!\n");
 		}
 		i++;
 	}
 	return num;
-}
-
-char ** parse_rd_pipe(char ** args) {
-	char ** temp = malloc(1200);
-	int arg_count = 0; // temp counter
-	int i = 0;
-	int num_char;
-	/*char* first_char;*/
-	/*char* last_char;*/
-	while (args[i]) {
-		num_char = strlen(args[i]);
-		//printf("num: %d\n", num_char);
-		if (num_char > 1) {//skip single char args
-
-            int j = 0;
-            int rp_count = 0;
-            // count how many pipes..
-            while (args[i][j]) {
-                if (args[i][j] == '>') {
-                    rp_count ++;
-                } else if (args[i][j] == '|' | args[i][j] == '<') {
-                    rp_count ++;
-                }
-				j++;
-            }
-
-            j = 0;
-            if (rp_count) {
-                char** split_args = malloc(1200);
-                // example:
-                //
-                // run thru args[i][j] (split_args[l][m])
-                    // if there is no pipe or redirect character
-                    //      copy it into split args
-                    //      increment by m by 1
-                    // if its >
-                    //      check the next one, to make sure if its >>
-                    //      increment l by one
-                    //      copy the > or >>
-                    //      increment l by one again
-                    // if its < |
-                    //      increment l by one
-                    //      copy the > or >>
-                    //      increment l by one again
-                    //
-                    //
-
-               // copy the arguments int splitargs into temp
-               //   strcopy
-               // free splitargs afer u copy over into temp
-
-            } else { // this string has no |
-                temp[arg_count] = args[i];
-                arg_count ++;
-            }
-
-
-			/*first_char = &args[i][0];*/
-			/*last_char = &args[i][num_char - 2];*/
-			/*if (is_redirect_pipe(first_char)) {*/
-				/*temp[arg_count++] = first_char;*/
-				/*temp[arg_count++] = &args[i][1];*/
-			/*}*/
-			/*else if (is_redirect_pipe(last_char)) {*/
-				/*strncpy(temp[arg_count++], args[i], num_char - 2);*/
-				/*strcpy(temp[arg_count++], last_char);*/
-			/*}*/
-			/*else {*/
-				/*temp[arg_count++] = args[i];*/
-			/*}*/
-		}
-		else {
-			temp[arg_count] = args[i];
-			arg_count++;
-			//printf("copied!\n");
-		}
-		i++;
-	}
-	temp[arg_count] = NULL;
-	return temp;
 }

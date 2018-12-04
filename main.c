@@ -2,30 +2,14 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <fcntl.h>
-#include <dirent.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <string.h>
 #include <errno.h>
-#include <signal.h>
 #include <sys/wait.h>
 #include "shell.h"
 #include "test.h"
 #include "text_parse.h"
-
-//  GENERAL STRUCTURE
-
-// ask for comamnd line inout *
-// parse by semicolon *
-// fork
-// parse by string
-// run args until u reach either a > | or the end
-//      if u reach a > or | :
-//          read until the next > or | or the end
-//          put these into the function
-//       else normal *
-
-
 
 int main() {
     // testing code:
@@ -70,9 +54,10 @@ int main() {
           // alright so we gotta put in the spaces bcuser is dumb
           char l2[250];
 
+          //in case there was not a space between arg and redirect/pipe symbol
           int a = 0;
           int b = 0;
-          while (l[a]) {
+          while (l[a]) { //adds a space before and after
               if (l[a] == '>') {
                     l2[b++] = ' ';
                     l2[b++] = l[a];
@@ -134,53 +119,8 @@ int main() {
 
               if (curr_line[0]) { // if there is an argument...
 
-                  // // copy things into a new string until you hit a null or | or redirect
-                  // char* segment1[10];
-                  // int mode = 0;
-                  // int j = 0;
-                  //
-                  // while( curr_line[j] && !is_redirect_pipe(curr_line[j])) {
-                  //     /*printf("%s (currline)\n", curr_line[j]);*/
-                  //     segment1[j] = curr_line[j];
-                  //     /*printf("%s (segment)\n", segment1[j]);*/
-                  //     j ++;
-                  //     /*printf("mad it to the end\n");*/
-                  // }
-                  // segment1[j] = NULL;
-                  //
-                  // printf("segment1:\n");
-                  // print_arr(segment1);
-                  //
-                  // char* segment2[10];
-                  //
-                  // int k = 0;
-                  // if (curr_line[j]) { // if there is more stuff
-                  //     if (is_redirect_pipe(curr_line[j])) {
-                  //         mode = rp_mode( curr_line[j] ); // mode
-                  //         printf("redirect was found, mode: [%d]\n", mode);
-                  //         j++;
-                  //     }
-                  //
-                  //     while( curr_line[j]) {
-                  //         printf("segment2 added\n");
-                  //         segment2[k] = curr_line[j];
-                  //         k ++;
-                  //         j++;
-                  //     }
-                  //     segment2[j] = NULL;
-                  // }
-                  //
-                  // /*printf("segment2 copied\n");*/
-                  //
-                  // printf("segment2:\n");
-                  // print_arr(segment2);
-
-
                   //                          PARENT AND CHILD WILL BE HERE
                   int f = fork();
-
-
-
 
                   // run the thing given
                   // --------------------------------
@@ -205,18 +145,9 @@ int main() {
                           exit(status);
                       }
                   } else { // child
-                      // printf("mode: %d\n", mode);
-                      // if (mode) { //there is a pipe or redirect
-                      //     if (mode == 4) {
-                      //         return ter_pipe(segment1, segment2);
-                      //     } else {
-                      //         return redirect(segment1, segment2, mode);
-                      //     }
-                      // } else {
                           /*printf("command to be run next: [%s]\n", curr_line[0]);*/
                           /*print_arr(curr_line);*/
                           return run(curr_line); //to end child process
-                      //}
                   }
                   // --------------------------------
               } //if currline
