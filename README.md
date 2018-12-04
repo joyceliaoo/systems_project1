@@ -5,7 +5,7 @@
 2. can handle two redirects in one line
 3. can handle >, >>, <, and |
 4. can change current working directory
-5. can handle weird spacing and tabs in given commands
+5. can handle weird spacing (in the form of tabs and spaces) in given commands
 6. can exit
 
 ## attempted but unsuccessful:
@@ -16,9 +16,9 @@
 2. unpredictable behavior when too many arguments are given/ arguments are too long in length
 3. prints extra command prompts when running `./shell < test_commands`
 4. (maybe not a bug) doesn't treat a string like "ls\t\t-l" as "ls -l"
-5. if you type in a command not found in bash, it will not tell you that it is invalid, and instead continue the program (as opposed to giving an error msg)
+5. if you type in a command not found in bash, it will not tell you that it is invalid, and just print out the next command prompt (as opposed to giving a command not found error msg)
 6. cd with no argument doesnt work 
-7. if you hit tab by accident and then backspace to return to where you where before the tab and continur typeng a command, the command will have unpredicable behavior.
+7. if you hit tab by accident and then backspace to return to where you where before the tab and contine typing a command, the command will have unpredicable behavior.
 
 ## functions and descriptions:
 ### text_parse.c
