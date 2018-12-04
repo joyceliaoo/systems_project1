@@ -123,7 +123,7 @@ int main() {
               curr_line = parse_line(lines[num_lines-i], " ", num_args); // parse by " "
               // printf("before trim: \n");
               // print_arr(curr_line);
-              // trim(curr_line);
+              trim(curr_line);
               // printf("after trim: \n");
               // print_arr(curr_line);
               /*printf("-----\n\n");*/
