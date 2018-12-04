@@ -67,7 +67,7 @@ int main() {
           fgets(l, 200, stdin); //reads user input
           l[strlen(l)-1] = '\0'; //remove trailing \n character
 
-          // alright so we gotta put in the spaces bcuser is dumb 
+          // alright so we gotta put in the spaces bcuser is dumb
           char l2[250];
 
           int a = 0;
@@ -87,26 +87,27 @@ int main() {
                         b ++;
                         l2[b] = ' ';
                     }
-                        
+
                     b ++;
-                    a ++; 
+                    a ++;
               } else if( l[a]  == '|' | l[a] == '<' ) {
                     l2[b] = ' ';
                     b ++;
                     l2[b] = l[a];
                     b ++;
-                    a ++; 
-                        
-              } else { 
+                    l2[b++] = ' ';
+                    a ++;
 
-                    l2[b] = l[a];   
+              } else {
+
+                    l2[b] = l[a];
                     b ++;
                     a++;
               }
           }
           l2[b] = 0;
 
-          printf("new string: %s", l2);
+          printf("new string: %s\n", l2);
 
           /*// testing*/
           /*printf("you entered: %s\n", l);*/
@@ -116,8 +117,8 @@ int main() {
           char** lines = parse_line(l2, ";", num_lines); // split it into the different commands
 
           /*printf("-----parsing for ; -----\n");*/
-          /*printf("commands received: \n");*/
-          /*print_arr(lines);*/
+          printf("commands received: \n");
+          print_arr(lines);
           //trim(lines);
           /*printf("-----\n\n");*/
 
@@ -132,9 +133,11 @@ int main() {
               int num_args = num_tokens(  lines[num_lines-i], " ");
               //take each command and parse into array of args
               curr_line = parse_line(lines[num_lines-i], " ", num_args); // parse by " "
-              //  print_arr(curr_line);
+              printf("before trim: \n");
+              print_arr(curr_line);
               trim(curr_line);
-              /*print_arr(curr_line);*/
+              printf("after trim: \n");
+              print_arr(curr_line);
               /*printf("-----\n\n");*/
 
 

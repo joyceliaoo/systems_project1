@@ -47,51 +47,65 @@ char ** parse_rp( char** args) {
     return args;
 }
 
-void trim(char** args) {
-    int string_offset = 0;
-		int arg_count = 0;
-    while (args[string_offset]) { // now considering just strings
-			  int num_char = strlen(args[string_offset]);
-        char trimmed_str[num_char * sizeof(char)];
-        int char_offset = 0;
-        int trim_index = 0;
-        //char found_beginning = 0;
-        //char prev_char = 0;
-        //  get rid of around and inside
-        while(args[string_offset][char_offset]) {
-            /*if( is_space(args[string_offset][char_offset]) && !found_beginning) {*/
-                /*trimmed_str[trim_index] = args[string_offset][char_offset];*/
-                /*trim_index++;*/
-                /*found_beginning = 1;*/
-            /*} else*/
-            if( !is_space(args[string_offset][char_offset]) ) {
-                // get rid of multiple spaces in a row
-            //     if (!is_space(prev_char)) {
-            //         //trimmed_str[trim_index] = ' ';
-            //         trim_index ++;
-            //         prev_char = args[string_offset][char_offset];
-            //     }
-            // } else {
-            //     //found_beginning = 1;
-            //     trimmed_str[trim_index] = args[string_offset][char_offset];
-            //     trim_index ++;
-            //     prev_char = args[string_offset][char_offset];
-            // }
-							trimmed_str[trim_index] = args[string_offset][char_offset];
-							trim_index++;
-						}
-            char_offset ++;
-        }
-				if (trim_index) {
-				  trimmed_str[trim_index] = 0;
-          /*printf("%s: trimmed ver\n", trimmed_str);*/
-				  strcpy(args[arg_count++], trimmed_str);
-				}
-        string_offset++;
+// void trim(char** args) {
+//     int string_offset = 0;
+// 		int arg_count = 0;
+//     while (args[string_offset]) { // now considering just strings
+// 		int num_char = strlen(args[string_offset]);
+//         char trimmed_str[num_char * sizeof(char)];
+//         int char_offset = 0;
+//         int trim_index = 0;
+//         //char found_beginning = 0;
+//         //char prev_char = 0;
+//         //  get rid of around and inside
+//         while(args[string_offset][char_offset]) {
+//             /*if( is_space(args[string_offset][char_offset]) && !found_beginning) {*/
+//                 /*trimmed_str[trim_index] = args[string_offset][char_offset];*/
+//                 /*trim_index++;*/
+//                 /*found_beginning = 1;*/
+//             /*} else*/
+//             if( !is_space(args[string_offset][char_offset]) ) {
+//                 // get rid of multiple spaces in a row
+//             //     if (!is_space(prev_char)) {
+//             //         //trimmed_str[trim_index] = ' ';
+//             //         trim_index ++;
+//             //         prev_char = args[string_offset][char_offset];
+//             //     }
+//             // } else {
+//             //     //found_beginning = 1;
+//             //     trimmed_str[trim_index] = args[string_offset][char_offset];
+//             //     trim_index ++;
+//             //     prev_char = args[string_offset][char_offset];
+//             // }
+// 							trimmed_str[trim_index] = args[string_offset][char_offset];
+// 							trim_index++;
+// 						}
+//             char_offset ++;
+//         }
+// 				if (trim_index) {
+// 				  trimmed_str[trim_index] = 0;
+//           /*printf("%s: trimmed ver\n", trimmed_str);*/
+// 				  strcpy(args[arg_count++], trimmed_str);
+// 				}
+//         string_offset++;
+//
+//     }
+//         printf("\n");
+// 		args[arg_count] = NULL;
+// }
 
-    }
-        printf("\n");
-		args[arg_count] = NULL;
+void trim(char** args) {
+	int string_offset = 0;
+	int arg_count = 0;
+	while(args[string_offset]) {
+		if (!is_space(args[string_offset][0])) {
+			//printf("arg %d is not a space\n", string_offset);
+			args[arg_count] = args[string_offset];
+			arg_count++;
+		}
+		string_offset++;
+	}
+	args[arg_count] = NULL;
 }
 
 char is_space(char c) {
@@ -165,13 +179,14 @@ char ** parse_rd_pipe(char ** args) {
                 } else if (args[i][j] == '|' | args[i][j] == '<') {
                     rp_count ++;
                 }
+				j++;
             }
 
             j = 0;
             if (rp_count) {
-                char** split_args = malloc(1200); 
+                char** split_args = malloc(1200);
                 // example:
-                // 
+                //
                 // run thru args[i][j] (split_args[l][m])
                     // if there is no pipe or redirect character
                     //      copy it into split args
@@ -181,18 +196,18 @@ char ** parse_rd_pipe(char ** args) {
                     //      increment l by one
                     //      copy the > or >>
                     //      increment l by one again
-                    // if its < | 
+                    // if its < |
                     //      increment l by one
                     //      copy the > or >>
                     //      increment l by one again
-                    // 
-                    //      
-               
+                    //
+                    //
+
                // copy the arguments int splitargs into temp
                //   strcopy
                // free splitargs afer u copy over into temp
 
-            } else { // this string has no | 
+            } else { // this string has no |
                 temp[arg_count] = args[i];
                 arg_count ++;
             }
