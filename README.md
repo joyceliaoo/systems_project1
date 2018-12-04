@@ -16,6 +16,9 @@
 2. unpredictable behavior when too many arguments are given/ arguments are too long in length
 3. prints extra command prompts when running `./shell < test_commands`
 4. (maybe not a bug) doesn't treat a string like "ls\t\t-l" as "ls -l"
+5. if you type in a command not found in bash, it will not tell you that it is invalid, and instead continue the program (as opposed to giving an error msg)
+6. cd with no argument doesnt work 
+7. if you hit tab by accident and then backspace to return to where you where before the tab and continur typeng a command, the command will have unpredicable behavior.
 
 ## functions and descriptions:
 ### text_parse.c

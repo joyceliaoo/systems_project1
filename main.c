@@ -136,8 +136,12 @@ int main() {
                       }
                       //if command is cd
                       if (child_value == 2) {
-                          printf("changing working dir...\n");
-                          chdir(curr_line[1]);
+                          int i = chdir(curr_line[1]);
+                          if (i == 0) {
+                              printf("changing working dir...\n");
+                          } else {
+                              printf("no directory here...\n");
+                          }
                       }
                       //if command is "exit"
                       if (child_value == 3) {
