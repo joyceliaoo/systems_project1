@@ -98,7 +98,7 @@ void trim(char** args) {
 	int string_offset = 0;
 	int arg_count = 0;
 	while(args[string_offset]) {
-		if (!is_space(args[string_offset][0])) {
+		if (!is_space(args[string_offset][0])) { //only save the args that aren't spaces
 			//printf("arg %d is not a space\n", string_offset);
 			args[arg_count] = args[string_offset];
 			arg_count++;
